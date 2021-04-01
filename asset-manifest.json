@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/TOTO_Social_Betting/static/css/main.9d5b29c0.chunk.css",
-    "main.js": "/TOTO_Social_Betting/static/js/main.55b8c857.chunk.js",
-    "main.js.map": "/TOTO_Social_Betting/static/js/main.55b8c857.chunk.js.map",
-    "runtime-main.js": "/TOTO_Social_Betting/static/js/runtime-main.ba178c56.js",
-    "runtime-main.js.map": "/TOTO_Social_Betting/static/js/runtime-main.ba178c56.js.map",
-    "static/js/2.77f93d43.chunk.js": "/TOTO_Social_Betting/static/js/2.77f93d43.chunk.js",
-    "static/js/2.77f93d43.chunk.js.map": "/TOTO_Social_Betting/static/js/2.77f93d43.chunk.js.map",
-    "static/js/3.55c5fd3d.chunk.js": "/TOTO_Social_Betting/static/js/3.55c5fd3d.chunk.js",
-    "static/js/3.55c5fd3d.chunk.js.map": "/TOTO_Social_Betting/static/js/3.55c5fd3d.chunk.js.map",
+    "main.css": "/TOTO_Social_Betting/static/css/main.2ba5f7d5.chunk.css",
+    "main.js": "/TOTO_Social_Betting/static/js/main.dedc1886.chunk.js",
+    "main.js.map": "/TOTO_Social_Betting/static/js/main.dedc1886.chunk.js.map",
+    "runtime-main.js": "/TOTO_Social_Betting/static/js/runtime-main.a99f4a63.js",
+    "runtime-main.js.map": "/TOTO_Social_Betting/static/js/runtime-main.a99f4a63.js.map",
+    "static/js/2.961ce5c5.chunk.js": "/TOTO_Social_Betting/static/js/2.961ce5c5.chunk.js",
+    "static/js/2.961ce5c5.chunk.js.map": "/TOTO_Social_Betting/static/js/2.961ce5c5.chunk.js.map",
+    "static/js/3.4b60839c.chunk.js": "/TOTO_Social_Betting/static/js/3.4b60839c.chunk.js",
+    "static/js/3.4b60839c.chunk.js.map": "/TOTO_Social_Betting/static/js/3.4b60839c.chunk.js.map",
     "index.html": "/TOTO_Social_Betting/index.html",
-    "static/css/main.9d5b29c0.chunk.css.map": "/TOTO_Social_Betting/static/css/main.9d5b29c0.chunk.css.map",
-    "static/js/2.77f93d43.chunk.js.LICENSE.txt": "/TOTO_Social_Betting/static/js/2.77f93d43.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/TOTO_Social_Betting/static/media/logo.6ce24c58.svg"
+    "static/css/main.2ba5f7d5.chunk.css.map": "/TOTO_Social_Betting/static/css/main.2ba5f7d5.chunk.css.map",
+    "static/js/2.961ce5c5.chunk.js.LICENSE.txt": "/TOTO_Social_Betting/static/js/2.961ce5c5.chunk.js.LICENSE.txt",
+    "static/media/style.css": "/TOTO_Social_Betting/static/media/home_background.a961da46.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.ba178c56.js",
-    "static/js/2.77f93d43.chunk.js",
-    "static/css/main.9d5b29c0.chunk.css",
-    "static/js/main.55b8c857.chunk.js"
+    "static/js/runtime-main.a99f4a63.js",
+    "static/js/2.961ce5c5.chunk.js",
+    "static/css/main.2ba5f7d5.chunk.css",
+    "static/js/main.dedc1886.chunk.js"
   ]
 }
