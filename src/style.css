@@ -1,0 +1,329 @@
+body {
+    background-image: url('./img/home_background.jpg');
+    background-color: #fff;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+    font-size: 100%;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.English{
+    text-align: left;
+}
+
+.Hebrew{
+    text-align: right;
+}
+
+.signinPage{
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    height: 100vh;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% 10% 60% 20%;
+}
+
+.nav{
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    text-align: center;
+    color: whitesmoke;
+    grid-template-columns: 20% 20% 20% 20% 20% ;
+}
+
+.nav-item{
+    box-sizing: border-box;
+    text-align: center;
+    width: 100%;
+    border-style: inset;
+    background-color:  #3b5704a6;;
+    border-color: #425d0dab;
+    border-radius: 15%;
+    align-items: center;
+    padding-top: 0.7rem;
+}
+
+.nav-item:hover{
+    background-color:#065a1a91;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.nav-link{
+    box-sizing: border-box;
+    text-align: center;
+    color: whitesmoke;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 1rem;
+    text-transform: capitalize;
+    font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+    padding: 0.5rem 1rem;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.nav-link:hover{
+    text-decoration: none;
+}
+
+.signinForm{
+    float: right;
+    margin-right: 10%;
+    width: 35%;
+    height: 100%;
+    background-color:  #425d0d6b;
+    border-radius: 10%;
+    align-items: center;
+    align-content: center;
+}
+
+
+.form-group {
+    align-content: center;
+    color:  black;
+    padding: 0.8rem;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: none;
+    margin: 0.8rem;
+    align-items: center;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+input{
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: italic;
+    box-sizing: border-box;
+    padding: 0;
+    border: 0;
+    background-color: ivory;
+}
+.form-control{
+    padding: 5%;
+}
+
+.btn{
+    color: rgb(0, 0, 0);
+    background-color: #fed136;
+    border-color: #fed136;
+    vertical-align: middle;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border: 1px solid transparent;
+    padding: 0.35rem;
+    text-decoration: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    align-items: center;
+    border-radius: 0.4rem;
+    text-align: center;
+    font-family: inherit; 
+    box-sizing: border-box;
+    transition-duration: 0.4s;
+}
+
+.btn:hover {
+    color: #fff;
+    background-color: #fec810;
+    border-color: #fec503;
+}
+
+.btn:focus, .btn.focus {
+    color: #fff;
+    background-color: #fec810;
+    border-color: #fec503;
+    box-shadow: 0 0 0 0.2rem rgba(254, 216, 84, 0.5);
+    outline: 0;
+}
+
+.registerForm{
+    float: right;
+    margin-right: 10%;
+    width: 35%;
+    height: fit-content;
+    background-color:  #425d0d6b;
+    border-radius: 10%;
+    align-items: center;
+    align-content: center;
+}
+
+.joinForm{
+    float: right;
+    margin-right: 25%;
+    margin-top: 2rem;
+    width: 35%;
+    height: fit-content;
+    background-color:  #425d0d6b;
+    border-radius: 10%;
+    align-items: center;
+    align-content: center;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 100%;
+    padding: 0;
+}
+
+.form-label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    align-content: center;
+    color:  black;
+    padding: 0.8rem;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: none;
+    margin: 0.8rem;
+    align-items: center;
+}
+
+
+.dropdown-menu{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    list-style: none;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    background-color: #f8be0071;;
+}
+
+h1{
+    color: #fed136;
+    text-align: center;
+    border-color: #f8be0071;;
+
+}
+
+
+.secondNavItem{
+    background-color:#0708089d;
+    border-radius: 5em;
+    border: none;
+    border-style: none;
+    box-shadow: 0 0 0 0.2em rgba(66, 66, 65, 0.39);
+}
+
+.secondNavItem:hover{
+    background-color: #2c3c53e1;
+    text-decoration: none;
+}
+
+.yellow{
+    color: #fed136;
+}
+
+tr{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 8% 32% 30% 30%;
+}
+
+.tr5column{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 8% 26% 26% 20% 20%;
+}
+
+.sortButton{
+    border:none;
+    box-align: center;
+}
+
+.sortButton:hover{
+    text-decoration: underline;
+}
+
+.invisibleButton{
+    background-color: transparent;
+    border: none;
+    height: fit-content;
+    width: fit-content;
+    color: #fff;
+    transition: 1s;
+    padding: 0.3rem;
+    padding-right: 1rem;
+    text-decoration: none;
+    font-size: 1rem;
+    line-height: 1.2;
+    margin: 0;
+    align-items: center;
+    border-radius: 0;
+    text-align: center;
+    font-family: inherit; 
+}
+
+
+.tooltipTable{
+    background-color: #151d06c9;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+    transition-duration: 0;
+    display: flexbox;
+    width: fit-content;
+}
+
+.tooltipTableLine{
+    width: 100%;
+    height: fit-content;
+    background-color: #243506e7;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    font-size: small;
+    height: fit-content;
+    transition-duration: 0;
+    display: grid;
+    grid-template-columns: 65% 35%;
+}
+
+.OverlayTrigger{
+    width: 100%;
+}
+
+
