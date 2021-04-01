@@ -50,16 +50,16 @@ export default class SignIn extends React.Component {
         return (
             <div>
                 <Form className="signinForm">
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>{email}</Form.Label>
                         <p></p>
-                        <Form.Control type="text" placeholder="Enter email" 
+                        <Form.Control type="text" placeholder="Enter email" autocomplete="username"
                                         onChange={this.onEmailChange} />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>{password}</Form.Label>
                         <p></p>
-                        <Form.Control type="password" placeholder="Password" 
+                        <Form.Control type="password" placeholder="Password" autocomplete="current-password"
                                         onChange={this.onPasswordChange}  />
                     </Form.Group>
                     <Form.Group>

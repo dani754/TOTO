@@ -65,9 +65,9 @@ export default class Register extends React.Component {
         return (
             <div>
                 <Form className="registerForm">
-                    <Form.Group controlId="formBasicEmail">
+                    <Form.Group>
                         <Form.Label>{email}</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" autocomplete="email"
+                        <Form.Control type="email" placeholder="Enter email" autocomplete="username"
                                         onChange={this.onEmailChange}
                         />
                     </Form.Group>
