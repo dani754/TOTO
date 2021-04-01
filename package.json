@@ -6,7 +6,9 @@
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "bootstrap": "^4.6.0",
     "react": "^17.0.2",
+    "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.1"
@@ -19,7 +21,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://dani754.github.io/TOTO_Social_Betting/",
+  "homepage": "https://dani754.github.io/TOTO/",
   "eslintConfig": {
     "extends": [
       "react-app",
