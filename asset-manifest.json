@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/TOTO/static/css/main.dcd37737.chunk.css",
-    "main.js": "/TOTO/static/js/main.9d955819.chunk.js",
-    "main.js.map": "/TOTO/static/js/main.9d955819.chunk.js.map",
+    "main.css": "/TOTO/static/css/main.656aa72a.chunk.css",
+    "main.js": "/TOTO/static/js/main.212c8e60.chunk.js",
+    "main.js.map": "/TOTO/static/js/main.212c8e60.chunk.js.map",
     "runtime-main.js": "/TOTO/static/js/runtime-main.e167389b.js",
     "runtime-main.js.map": "/TOTO/static/js/runtime-main.e167389b.js.map",
     "static/js/2.6d9564f3.chunk.js": "/TOTO/static/js/2.6d9564f3.chunk.js",
@@ -10,14 +10,14 @@
     "static/js/3.523e0c4d.chunk.js": "/TOTO/static/js/3.523e0c4d.chunk.js",
     "static/js/3.523e0c4d.chunk.js.map": "/TOTO/static/js/3.523e0c4d.chunk.js.map",
     "index.html": "/TOTO/index.html",
-    "static/css/main.dcd37737.chunk.css.map": "/TOTO/static/css/main.dcd37737.chunk.css.map",
+    "static/css/main.656aa72a.chunk.css.map": "/TOTO/static/css/main.656aa72a.chunk.css.map",
     "static/js/2.6d9564f3.chunk.js.LICENSE.txt": "/TOTO/static/js/2.6d9564f3.chunk.js.LICENSE.txt",
     "static/media/style.css": "/TOTO/static/media/home_background.a961da46.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.e167389b.js",
     "static/js/2.6d9564f3.chunk.js",
-    "static/css/main.dcd37737.chunk.css",
-    "static/js/main.9d955819.chunk.js"
+    "static/css/main.656aa72a.chunk.css",
+    "static/js/main.212c8e60.chunk.js"
   ]
 }
