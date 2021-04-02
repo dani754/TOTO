@@ -3,6 +3,7 @@ import LeaguePageNavbar from '../LeagueComponents/LeaguePageNavbar';
 import LeagueTable from '../LeagueComponents/LeagueTable';
 import CycleTable from '../LeagueComponents/CycleTable';
 import CycleBets from '../LeagueComponents/CycleBets';
+import CheckBetsAfterUpdate from '../LeagueComponents/CheckBetsAfterUpdate';
 import '../../style.css';
 import '../../importStyle.css';
 
@@ -20,6 +21,7 @@ export default class LeaguePage extends React.Component {
             leagues: this.props.leagues,
             currentCycleTable: 0,
             currentBetsCycle: 0,
+            toast: <p></p>,
         }
     }
 
@@ -47,6 +49,18 @@ export default class LeaguePage extends React.Component {
         }).catch(err => console.log('LeaguePage', err))
     }
 
+    checkBets = (table) => {
+        let complete = true;
+        for (let i = 0; i<table.length; i++){
+            if (! (table[i].userBet >= 1 && table[i].userBet <= 3 ||  table[i].userBet === 'x')){
+                complete = false;
+            }
+        }
+        this.setState({
+            toast: <CheckBetsAfterUpdate show={true} complete={complete} />
+        });
+    }
+
     switchTab = (eventKey) => {
         let returnedTable;
         switch(eventKey){
@@ -58,7 +72,9 @@ export default class LeaguePage extends React.Component {
                 break;
             case "CycleBets":
                 returnedTable = <CycleBets data={this.state.data} userID={this.props.userID}
-                                            cycleID={this.state.currentBetsCycle} onSubmit={()=>{this.switchTab("LeagueTable")}}  />;
+                                            cycleID={this.state.currentBetsCycle} onSubmit={(table)=> {
+                                                                                        this.switchTab("LeagueTable")
+                                                                                        this.checkBets(table) } }  />
                 break;
            default: {
                 if (eventKey-1000000 >0){
@@ -86,11 +102,12 @@ export default class LeaguePage extends React.Component {
         if (Content === 0 && this.state.leagueID !== 0){
             this.switchTab("LeagueTable");
         };
+        let toast = this.state.toast;
         return (
             <div>
                 <p></p>
                 <h1 className="hebrew"> שלום {this.props.userName} ! ברוכים הבאים לליגת {this.state.leagueName} </h1>
-                <p></p>
+                {toast}
                 <LeaguePageNavbar   onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
                                     leagues={this.state.leagues} 
                                     cycles={this.state.cyclesIDs}

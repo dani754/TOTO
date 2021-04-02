@@ -49,13 +49,15 @@ export default class CycleBets extends React.Component {
         if (Array.isArray(this.state.gamesDB) && this.state.gamesDB.length > 0){
             newTable = this.state.gamesDB.map((game)=>{
                 let scoreUpdate = 'await';
-                let bet = 'await';
-                if (game.score > 0)
+                if (this.state.isLocked){
+                    if (game.score > 0)
                     scoreUpdate = game.score;
-                if (scoreUpdate === 3)
-                    scoreUpdate = 'x';
+                    if (scoreUpdate === 3)
+                        scoreUpdate = 'x';
+                }
+                let bet = 'await';
                 if (Array.isArray(game.membersbets) && game.membersbets[this.state.userIndex] !== 0){
-                    if (game.membersbets[this.state.userIndex] === 3)
+                    if (this.state.isLocked && game.membersbets[this.state.userIndex] === 3)
                         bet = 'x';
                     else
                         bet = game.membersbets[this.state.userIndex];
@@ -95,7 +97,7 @@ export default class CycleBets extends React.Component {
             })
             .then((data) => {
                 console.log("updatebets", data);
-                return this.props.onSubmit();
+                return this.props.onSubmit(this.state.table);
             }).catch(err => console.log("updatebets", err))
         }
     }
