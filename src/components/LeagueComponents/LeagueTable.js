@@ -64,6 +64,7 @@ export default class LeagueTable extends React.Component {
                     currentCycleScore: this.state.cycleData.membersscores[i],
                  };
             });
+            tableArray.sort(function(a, b){return b.totalScore - a.totalScore});
             this.setState({table: tableArray});
         };
         return (
@@ -71,8 +72,8 @@ export default class LeagueTable extends React.Component {
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
-                            <th type="button" className="sortButton" onClick={()=>this.sortByCycleScore()}>מחזור נוכחי</th> 
-                            <th type="button" className="sortButton" onClick={()=>this.sortByTotalScore()}>נקודות</th> 
+                            <th type="button" className="sortButton" onClick={()=>this.sortByCycleScore()}>ניקוד למחזור נוכחי</th> 
+                            <th type="button" className="sortButton" onClick={()=>this.sortByTotalScore()}>סה"כ נקודות</th> 
 
                             <th>שם</th> 
 

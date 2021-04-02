@@ -2,6 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
 import '../../style.css';
 
 export default class CyclesUpdate extends React.Component {
@@ -248,7 +249,8 @@ export default class CyclesUpdate extends React.Component {
                                                     <td>{i+1}</td>
                                                     <td>{game.hometeam}</td>
                                                     <td>{game.awayteam}</td>
-                                                    <td> <Button style={{color: "black"}} type="button" onClick={() => this.deleteGame(game.gameID)} >delete</Button> </td>
+                                                    <td>
+                                                        <Button variant="outline-secondary" >delete</Button></td>
                                                 </tr>
                                         );
                                     })}

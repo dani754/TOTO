@@ -62,6 +62,9 @@ export default class CycleBets extends React.Component {
                     else
                         bet = game.membersbets[this.state.userIndex];
                 }
+                let bonusMark = '';
+                if (game.isbonus)
+                    bonusMark = 'בונוס! ';
                 return {
                     hometeam: game.hometeam,
                     awayteam: game.awayteam,
@@ -69,6 +72,7 @@ export default class CycleBets extends React.Component {
                     userBet: bet,
                     cycleid: game.cycleid,
                     gameID: game.gameid,
+                    bonus: bonusMark,
                 };
             });
         }
@@ -139,7 +143,7 @@ export default class CycleBets extends React.Component {
 
                                             <td>{game.hometeam}</td>
 
-                                            <td>{i+1}</td>
+                                            <td>{game.bonus}{i+1}</td>
 
                                         </tr>
                                 );
@@ -182,7 +186,7 @@ export default class CycleBets extends React.Component {
                                                     </td>
                                                     <td>{game.awayteam}</td>
                                                     <td>{game.hometeam}</td>
-                                                    <td>{i+1}</td>
+                                                    <td>{game.bonus}{i+1}</td>
 
                                                 </tr>
                                         );
