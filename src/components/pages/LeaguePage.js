@@ -58,7 +58,7 @@ export default class LeaguePage extends React.Component {
                 break;
             case "CycleBets":
                 returnedTable = <CycleBets data={this.state.data} userID={this.props.userID}
-                                            cycleID={this.state.currentBetsCycle} onSubmit={(id)=>{this.switchTab(id)}}  />;
+                                            cycleID={this.state.currentBetsCycle} onSubmit={()=>{this.switchTab("LeagueTable")}}  />;
                 break;
            default: {
                 if (eventKey-1000000 >0){

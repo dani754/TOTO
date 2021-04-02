@@ -95,7 +95,7 @@ export default class CycleBets extends React.Component {
             })
             .then((data) => {
                 console.log("updatebets", data);
-                return this.props.onSubmit(data.cycleid);
+                return this.props.onSubmit();
             }).catch(err => console.log("updatebets", err))
         }
     }
@@ -150,7 +150,9 @@ export default class CycleBets extends React.Component {
             console.log("table bets", this.state.table);
             return (
                 <div>
-                    <Form onSubmit={()=>this.handleSubmit()}>
+                    <Form onSubmit={(e)=> {
+                            e.preventDefault()
+                            this.handleSubmit()}} >
                         <Table striped bordered hover variant="dark">
                             <thead>
                                 <tr>
@@ -166,9 +168,9 @@ export default class CycleBets extends React.Component {
                             <tbody>
                                     {tableArray.map((game,i) => {
                                         return( <tr key={i} className="hebrew" >
-                                                    <td className="hebrew" >
-                                                        <Form.Group className="hebrew" >
-                                                            <Form.Control className="hebrew"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
+                                                    <td className="hebrew" className="bet" >
+                                                        <Form.Group className="bet" >
+                                                            <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
                                                                 <option value='0' className="hebrew" >ממתין</option>
                                                                 <option value='1' className="hebrew"  >1</option>
                                                                 <option value='2' className="hebrew" >2</option>

@@ -9,16 +9,8 @@ export default function LeaguePageNavbar(props){
     allCycles.sort(function(a, b){return b-a});
     return (
         <div >
-            <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} >
-            <NavDropdown title="החלף מחזור" id="nav-dropdown" className="secondNavItem">
-                    {allCycles.map((id,i)=>{
-                        return(
-                            <NavDropdown.Item eventKey={id} key={i} >מחזור {allCycles.length-i}</NavDropdown.Item>
-                        );
-                    })}
-                    </NavDropdown>
-                
-                
+            <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} className="secondNav" >
+               
                 <Nav.Item className="secondNavItem">
                     <Nav.Link eventKey="CycleBets" >הימורים למחזור {allCycles.length-allCycles.indexOf(parseInt(props.betID))} </Nav.Link>
                 </Nav.Item>

@@ -50,7 +50,7 @@ body {
     margin: 0;
     text-align: center;
     color: whitesmoke;
-    grid-template-columns: 20% 20% 20% 20% 20% ;
+    grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 .nav-item{
@@ -63,12 +63,12 @@ body {
     border-radius: 15%;
     align-items: center;
     padding-top: 0.7rem;
+    font-size: small;
 }
 
 .nav-item:hover{
     background-color:#065a1a91;
     text-decoration: none;
-    font-size: 1.2rem;
 }
 
 .nav-link{
@@ -76,7 +76,7 @@ body {
     text-align: center;
     color: whitesmoke;
     text-decoration: none;
-    font-weight: bolder;
+    font-weight: normal;
     font-size: 1rem;
     text-transform: capitalize;
     font-family: "Roboto Slab", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
@@ -238,6 +238,10 @@ h1{
 
 }
 
+.secondNav{
+    grid-template-columns: 22% 22% 22% 22% ;
+}
+
 
 .secondNavItem{
     background-color:#0708089d;
@@ -324,4 +328,10 @@ tr{
 
 .OverlayTrigger{
     width: 100%;
+}
+
+.bet{
+    padding: 0;
+    margin: 0;
+    border: none;
 }
