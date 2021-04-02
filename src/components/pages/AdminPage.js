@@ -44,6 +44,7 @@ export default class AdminPage extends React.Component {
                 names_array: result.names_array,
                 scores_array: result.scores_array,
                 current_cycle: result.current_cycle,
+                table: 0,
             });
         }).catch(err => console.log('AdminPage', err))
     }
@@ -115,7 +116,7 @@ export default class AdminPage extends React.Component {
             default: {
                 this.setState({showCycle: eventKey});
                 returnedTable = <CyclesUpdate data={this.state} cycleID={parseInt(eventKey)}
-                                                onSubmit={()=>this.switchTab("LeagueData")} />;
+                                                onSubmit={()=> this.setState({leagueID: 0})} />
             }
         }
         this.setState({table: returnedTable});

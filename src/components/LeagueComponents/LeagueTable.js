@@ -71,19 +71,22 @@ export default class LeagueTable extends React.Component {
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
+                            <th type="button" className="sortButton" onClick={()=>this.sortByCycleScore()}>מחזור נוכחי</th> 
+                            <th type="button" className="sortButton" onClick={()=>this.sortByTotalScore()}>נקודות</th> 
+
+                            <th>שם</th> 
+
                             <th>#</th> 
-                            <th>User Name</th> 
-                            <th type="button" className="sortButton" onClick={()=>this.sortByTotalScore()}>Total Score</th> 
-                            <th type="button" className="sortButton" onClick={()=>this.sortByCycleScore()}>This Cycle</th> 
+
                         </tr>
                     </thead>
                     <tbody>
                     {this.state.table.map((user,i) => {
                       return( <tr>
-                            <td>{i+1}</td>
-                            <td>{user.userName}</td>
-                            <td>{user.totalScore}</td>
                             <td>{user.currentCycleScore}</td>
+                            <td>{user.totalScore}</td>
+                            <td>{user.userName}</td>
+                            <td>{i+1}</td>
                         </tr>);
                     })}                
                     </tbody>

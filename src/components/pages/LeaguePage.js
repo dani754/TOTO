@@ -89,7 +89,7 @@ export default class LeaguePage extends React.Component {
         return (
             <div>
                 <p></p>
-                <h1 > Hello {this.props.userName} to league {this.state.leagueName} </h1>
+                <h1 className="hebrew"> שלום {this.props.userName} ! ברוכים הבאים לליגת {this.state.leagueName} </h1>
                 <p></p>
                 <LeaguePageNavbar   onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
                                     leagues={this.state.leagues} 

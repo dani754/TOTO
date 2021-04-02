@@ -46,7 +46,7 @@ export default class CycleTable extends React.Component {
         let newTable = [{gameid: 1, hometeam: 'await', awayteam: 'await', score: 'await', cycleid: this.props.cycleID, bets: [0,]}];
         if (Array.isArray(this.state.gamesDB) && this.state.gamesDB.length > 0){
             newTable = this.state.gamesDB.map((game)=>{
-                let scoreUpdate = 'await';
+                let scoreUpdate = 'טרם נקבע';
                 if (game.score > 0)
                     scoreUpdate = game.score;
                 if (scoreUpdate === 3)
@@ -80,18 +80,18 @@ export default class CycleTable extends React.Component {
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
+                            <th>תוצאה</th> 
+                            <th>קבוצת חוץ</th> 
+
+                            <th>קבוצת בית</th> 
+
                             <th>#</th> 
-                            <th>Home Team</th> 
-                            <th>Away Team</th> 
-                            <th>Score</th> 
+
                             </tr>
                         </thead>
                         <tbody>
                             {tableArray.map((game,i) => {
                                 return( <tr key={i}>
-                                            <td>{i+1}</td>
-                                            <td>{game.hometeam}</td>
-                                            <td>{game.awayteam}</td>
                                             <td><OverlayTrigger className="OverlayTrigger"
                                                 placement={'left'}
                                                 overlay={
@@ -122,6 +122,12 @@ export default class CycleTable extends React.Component {
                                                 }>
                                                 <Button className="invisibleButton">{game.score}</Button>
                                                 </OverlayTrigger></td>
+                                                <td>{game.awayteam}</td>
+
+                                                <td>{game.hometeam}</td>
+
+                                                <td>{i+1}</td>
+
                                         </tr>
                                 );
                             })}                
@@ -135,19 +141,24 @@ export default class CycleTable extends React.Component {
                 <Table striped bordered hover variant="dark">
                     <thead>
                         <tr>
-                        <th>#</th> 
-                        <th>Home Team</th> 
-                        <th>Away Team</th> 
-                        <th>Score</th> 
+                        <th>תוצאה</th> 
+                            <th>קבוצת חוץ</th> 
+
+                            <th>קבוצת בית</th> 
+
+                            <th>#</th> 
                         </tr>
                     </thead>
                     <tbody>
                     {tableArray.map((game,i) => {
                       return( <tr key={i}>
-                            <td>{i+1}</td>
-                            <td>{game.hometeam}</td>
-                            <td>{game.awayteam}</td>
                             <td>{game.score}</td>
+                            <td>{game.awayteam}</td>
+
+                            <td>{game.hometeam}</td>
+
+                            <td>{i+1}</td>
+
                         </tr>);
                     })}                
                     </tbody>

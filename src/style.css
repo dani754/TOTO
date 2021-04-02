@@ -15,7 +15,7 @@ body {
     font-weight: bold;
     line-height: 1.5;
     color: #212529;
-    text-align: left;
+    text-align: right;
     box-sizing: border-box;
 }
 
@@ -259,13 +259,13 @@ h1{
 tr{
     width: 100%;
     display: grid;
-    grid-template-columns: 8% 32% 30% 30%;
+    grid-template-columns: 30% 30% 32% 8%;
 }
 
 .tr5column{
     width: 100%;
     display: grid;
-    grid-template-columns: 8% 26% 26% 20% 20%;
+    grid-template-columns:  20% 20% 26% 26% 8%;
 }
 
 .sortButton{
@@ -325,5 +325,3 @@ tr{
 .OverlayTrigger{
     width: 100%;
 }
-
-

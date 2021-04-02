@@ -116,21 +116,29 @@ export default class CycleBets extends React.Component {
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr className="tr5column">
+
+                            <th>הימור</th> 
+                            <th>תוצאה</th> 
+                            <th>קבוצת חוץ</th> 
+                            <th>קבוצת בית</th> 
+
+
                             <th>#</th> 
-                            <th>Home Team</th> 
-                            <th>Away Team</th> 
-                            <th>Score</th> 
-                            <th>Your Bet</th> 
+
                             </tr>
                         </thead>
                         <tbody>
                             {tableArray.map((game, i) => {
                                 return( <tr key={i} className="tr5column">
-                                            <td>{i+1}</td>
-                                            <td>{game.hometeam}</td>
-                                            <td>{game.awayteam}</td>
+                                        <td>{game.userBet}</td>
+
                                             <td>{game.score}</td>
-                                            <td>{game.userBet}</td>
+                                            <td>{game.awayteam}</td>
+
+                                            <td>{game.hometeam}</td>
+
+                                            <td>{i+1}</td>
+
                                         </tr>
                                 );
                             })}                
@@ -146,33 +154,37 @@ export default class CycleBets extends React.Component {
                         <Table striped bordered hover variant="dark">
                             <thead>
                                 <tr>
-                                <th>#</th> 
-                                <th>Home Team</th> 
-                                <th>Away Team</th> 
-                                <th>Your Bet</th> 
+
+                                <th>הימור</th> 
+                            <th>קבוצת חוץ</th> 
+                            <th>קבוצת בית</th> 
+
+
+                            <th>#</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                     {tableArray.map((game,i) => {
-                                        return( <tr key={i}>
-                                                    <td>{i+1}</td>
-                                                    <td>{game.hometeam}</td>
-                                                    <td>{game.awayteam}</td>
-                                                    <td>
-                                                        <Form.Group>
-                                                            <Form.Control as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
-                                                                <option value='0' >await</option>
-                                                                <option value='1' >1</option>
-                                                                <option value='2' >2</option>
-                                                                <option value='3' >x</option>
+                                        return( <tr key={i} className="hebrew" >
+                                                    <td className="hebrew" >
+                                                        <Form.Group className="hebrew" >
+                                                            <Form.Control className="hebrew"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
+                                                                <option value='0' className="hebrew" >ממתין</option>
+                                                                <option value='1' className="hebrew"  >1</option>
+                                                                <option value='2' className="hebrew" >2</option>
+                                                                <option value='3' className="hebrew" >x</option>
                                                             </Form.Control>
                                                         </Form.Group>
                                                     </td>
+                                                    <td>{game.awayteam}</td>
+                                                    <td>{game.hometeam}</td>
+                                                    <td>{i+1}</td>
+
                                                 </tr>
                                         );
                                     })}    
                             </tbody>
-                            <Button size="lg" style={{color: "black"}} type="submit">save bets</Button>
+                            <Button size="lg" style={{color: "black"}} type="submit">שמור הימור</Button>
                         </Table>
                     </Form>
                 </div>

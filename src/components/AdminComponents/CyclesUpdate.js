@@ -88,6 +88,7 @@ export default class CyclesUpdate extends React.Component {
     }
 
     addGame = () => {
+        console.log("addGame", this.state, this.props);
         if (this.state.hometeam !== '' && this.state.awayteam !== ''){
             fetch('https://toto-server.herokuapp.com/addgame',
                 {
@@ -98,13 +99,14 @@ export default class CyclesUpdate extends React.Component {
                         awayteam: this.state.awayteam,
                         cycleID: this.state.cycleID,
                         leagueID: this.props.data.leagueID,
-                        leagueSize: this.props.data.membersids.length,
+                        leagueSize: this.props.data.membersIDs.length,
                         firstGame: (this.state.table[0].hometeam === 'await'),
                     })
                 })
                 .then((res) => res.json())
                 .then((data) => {
-                console.log("response addGame", data);
+                    console.log("response addGame", data);
+                    this.props.onSubmit();
                 }).catch(err => console.log("addGame", err))
         }
     }
