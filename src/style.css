@@ -306,10 +306,11 @@ tr{
     color: #fff;
     padding: 0;
     margin: 0;
-    width: fit-content;
+    width: 100%;
     transition-duration: 0;
     display: flexbox;
     width: fit-content;
+    border: none;
 }
 
 .tooltipTableLine{
@@ -323,12 +324,19 @@ tr{
     height: fit-content;
     transition-duration: 0;
     display: grid;
-    grid-template-columns: 65% 35%;
+    grid-template-columns: 35% 65%;
+}
+
+.tooltipTableText{
+    padding: 0;
+    margin: 0;
 }
 
 .OverlayTrigger{
-    width: 100%;
+    width: 150%;
+    border: none;
 }
+
 
 .bet{
     padding: 0;

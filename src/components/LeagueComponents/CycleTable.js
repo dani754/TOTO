@@ -92,15 +92,15 @@ export default class CycleTable extends React.Component {
                         <tbody>
                             {tableArray.map((game,i) => {
                                 return( <tr key={i}>
-                                            <td><OverlayTrigger className="OverlayTrigger"
-                                                placement={'left'}
+                                            <td ><OverlayTrigger className="OverlayTrigger"
+                                                placement={'right'}
                                                 overlay={
-                                                    <Tooltip id={`tooltip-left`} >
+                                                    <Tooltip id={`tooltip-right`} style={{"width": "150%"}} >
                                                         <Table className="tooltipTable">
                                                             <thead>
                                                                 <tr  className="tooltipTableLine">
-                                                                    <th>Name</th> 
-                                                                    <th>Bet</th>    
+                                                                    <th></th> 
+                                                                    <th>הימורים:</th>    
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -110,8 +110,9 @@ export default class CycleTable extends React.Component {
                                                                             showenBet = 'x';
                                                                         return (
                                                                             <tr key={i} className="tooltipTableLine">
-                                                                                <td>{this.props.data.names_array[i]}</td>
-                                                                                <td>{showenBet}</td>
+                                                                            <td className="tooltipTableText" >{showenBet}</td>
+
+                                                                                <td  className="tooltipTableText" >{this.props.data.names_array[i]}</td>
                                                                             </tr>
                                                                         ); 
                                                                     })
