@@ -10,23 +10,17 @@ export default function LeaguePageNavbar(props){
     return (
         <div >
             <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} className="secondNav" >
-               
                 <Nav.Item className="secondNavItem">
-                    <Nav.Link eventKey="CycleBets" >הימורים למחזור {allCycles.length-allCycles.indexOf(parseInt(props.betID))} </Nav.Link>
-                </Nav.Item>
-               
-                    <NavDropdown title="החלף מחזור" id="nav-dropdown" className="secondNavItem">
+                    <Nav.Link eventKey="CycleTable">מחזור {allCycles.length-allCycles.indexOf(parseInt(props.cycleID))} </Nav.Link>
+                    <NavDropdown id="nav-dropdown" className="inlineDropmenu">
                     {allCycles.map((id,i)=>{
                         return(
-                            <NavDropdown.Item eventKey={id+1000000} key={i} >מחזור {allCycles.length-i}</NavDropdown.Item>
+                            <NavDropdown.Item eventKey={id} key={i} >מחזור {allCycles.length-i}</NavDropdown.Item>
                         );
                     })}
-                </NavDropdown>
-                    <Nav.Item className="secondNavItem">
-                    <Nav.Link eventKey="CycleTable">מחזור {allCycles.length-allCycles.indexOf(parseInt(props.cycleID))} </Nav.Link>
-                   
+                    </NavDropdown>
                 </Nav.Item>
-                    <Nav.Item className="secondNavItem">
+                <Nav.Item className="secondNavItem">
                     <Nav.Link eventKey="LeagueTable" >טבלת הליגה</Nav.Link>
                 </Nav.Item>
             </Nav>
