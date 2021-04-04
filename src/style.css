@@ -93,6 +93,7 @@ body {
     float: right;
     margin-right: 10%;
     width: 35%;
+    min-width: 330px;
     height: 100%;
     background-color:  #425d0d6b;
     border-radius: 10%;
@@ -172,7 +173,8 @@ input{
 .registerForm{
     float: right;
     margin-right: 10%;
-    width: 35%;
+    width: 40%;
+    min-width: 330px;
     height: fit-content;
     background-color:  #425d0d6b;
     border-radius: 10%;
@@ -359,4 +361,15 @@ tr{
     padding: 0;
     margin: 0;
     border: none;
+}
+
+.bonusLine{
+    width: 100%;
+    display: grid;
+    grid-template-columns:  20% 20% 26% 26% 8%;
+    background-color:  #3b5a06e7;
+}
+
+.bonusLine td{
+    background-color: #3b5a06e7;
 }

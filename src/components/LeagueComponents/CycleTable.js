@@ -134,7 +134,8 @@ export default class CycleTable extends React.Component {
                         </thead>
                         <tbody>
                             {tableArray.map((game,i) => {
-                                return( <tr key={i} className="tr5column" >
+                                if (game.isbonus){
+                                    return( <tr key={i} className="bonusLine" >
                                             <td ><OverlayTrigger className="OverlayTrigger"
                                                 placement={'right'}
                                                 overlay={
@@ -168,9 +169,48 @@ export default class CycleTable extends React.Component {
                                             <td>{game.userBet}</td>
                                             <td>{game.awayteam}</td>
                                             <td>{game.hometeam}</td>
-                                            <td>{game.bonus}{i+1}</td>
+                                            <td><strong>!</strong></td>
                                         </tr>
-                                );
+                                    );
+                                } else {
+                                    return( <tr key={i} className="tr5column" >
+                                            <td ><OverlayTrigger className="OverlayTrigger"
+                                                placement={'right'}
+                                                overlay={
+                                                    <Tooltip id={`tooltip-right`} style={{"width": "150%"}} >
+                                                        <Table className="tooltipTable">
+                                                            <thead>
+                                                                <tr  className="tooltipTableLine">
+                                                                    <th></th> 
+                                                                    <th>:הימורים</th>    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {game.bets.map((bet,i) => {
+                                                                        let showenBet = bet;
+                                                                        if (bet === 3)
+                                                                            showenBet = 'x';
+                                                                        return (
+                                                                            <tr key={i} className="tooltipTableLine">
+                                                                                <td className="tooltipTableText" >{showenBet}</td>
+                                                                                <td  className="tooltipTableText" >{this.props.data.names_array[i]}</td>
+                                                                            </tr>
+                                                                        ); 
+                                                                    })
+                                                                }
+                                                            </tbody>
+                                                        </Table>
+                                                    </Tooltip>
+                                                }>
+                                                <Button className="invisibleButton">{game.score}</Button>
+                                                </OverlayTrigger></td>
+                                            <td>{game.userBet}</td>
+                                            <td>{game.awayteam}</td>
+                                            <td>{game.hometeam}</td>
+                                            <td>{i+1}</td>
+                                        </tr>
+                                    );
+                                }
                             })}                
                         </tbody>
                     </Table>
@@ -193,22 +233,41 @@ export default class CycleTable extends React.Component {
                         </thead>
                         <tbody>
                             {tableArray.map((game,i) => {
-                                return( <tr key={i} className="hebrew" >
-                                        <td className="hebrew" className="bet" >
-                                            <Form.Group className="bet" >
-                                                <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
-                                                    <option value='0' className="hebrew" >ממתין</option>
-                                                    <option value='1' className="hebrew"  >1</option>
-                                                    <option value='2' className="hebrew" >2</option>
-                                                    <option value='3' className="hebrew" >x</option>
-                                                </Form.Control>
-                                            </Form.Group>
-                                        </td>
-                                        <td>{game.awayteam}</td>
-                                        <td>{game.hometeam}</td>
-                                        <td>{game.bonus}{i+1}</td>
-                                    </tr>
-                                );
+                                if (game.isbonus){
+                                    return( <tr key={i} className="hebrew bonus" >
+                                            <td className="hebrew" className="bet" >
+                                                <Form.Group className="bet" >
+                                                    <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
+                                                        <option value='0' className="hebrew" >ממתין</option>
+                                                        <option value='1' className="hebrew"  >1</option>
+                                                        <option value='2' className="hebrew" >2</option>
+                                                        <option value='3' className="hebrew" >x</option>
+                                                    </Form.Control>
+                                                </Form.Group>
+                                            </td>
+                                            <td>{game.awayteam}</td>
+                                            <td>{game.hometeam}</td>
+                                            <td>{game.bonus}{i+1}</td>
+                                        </tr>
+                                    );
+                                } else {
+                                    return( <tr key={i} className="hebrew" >
+                                            <td className="hebrew" className="bet" >
+                                                <Form.Group className="bet" >
+                                                    <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
+                                                        <option value='0' className="hebrew" >ממתין</option>
+                                                        <option value='1' className="hebrew"  >1</option>
+                                                        <option value='2' className="hebrew" >2</option>
+                                                        <option value='3' className="hebrew" >x</option>
+                                                    </Form.Control>
+                                                </Form.Group>
+                                            </td>
+                                            <td>{game.awayteam}</td>
+                                            <td>{game.hometeam}</td>
+                                            <td>{i+1}</td>
+                                        </tr>
+                                    );
+                                }
                             })}    
                         </tbody>
                         <Button size="lg" style={{color: "black"}} type="submit">שמור הימור</Button>

@@ -19,7 +19,7 @@ export default class Home extends React.Component {
             isAdmin: 0,
             leagues: [],
             navBar: 0,
-            language: this.props.language,
+            language: "english",
         }
     }
     
@@ -40,6 +40,7 @@ export default class Home extends React.Component {
                 defaultLeague: result.defaultleague,
                 isAdmin: result.isadmin,
                 leagues: result.leagues,
+                language: result.main_language,
             });
             console.log("home data",result, this.state);
         }).catch(err => console.log('home', err))
@@ -53,12 +54,12 @@ export default class Home extends React.Component {
                 returnedTable = <ProfilePage  userID = {this.state.userID}/>
                 break;
             case "adminPage":
-                returnedTable = <AdminPage  leagueID = {this.state.isAdmin}/>
+                returnedTable = <AdminPage  leagueID = {this.state.isAdmin} />
                 break;
             case "create":
                 returnedTable = <CreateLeague userID = {this.state.userID}
                                               userName= {this.state.userName}
-                                              newLeague = {()=>{this.setState({userID: 0, defaultLeague:0})}} 
+                                              newLeague = {()=>{this.setState({userID: 0, navBar: 0})}}
                                               language = {this.state.language}    />;
                 break;
             case "join":
@@ -92,8 +93,8 @@ export default class Home extends React.Component {
                         username={this.state.userName}
                         onJoining = {()=>{this.userData(url)}}
                         isAdmin = {this.state.isAdmin}
-                        createLeague = {()=>{   
-                            console.log("create")
+                        createLeague = {()=> {   
+                            this.setState({defaultLeague: -1})
                             this.switchTab("create") }}  />
             );
         }

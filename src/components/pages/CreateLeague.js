@@ -54,20 +54,22 @@ export default class createLeague extends React.Component {
         }
         console.log("inside create league", this.state)
         return (
-            <div>
-                <Form className="signinForm">
+            <div className="Hebrew" >
+                <p></p>
+                <Form className="registerForm">
                     <Form.Group>
                         <Form.Label>{leagueName}</Form.Label>
                         <p></p>
-                        <Form.Control type="text" placeholder="League Name" 
+                        <Form.Control type="text" placeholder={leagueName} 
                                         onChange={this.onNameChange} />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>{scoreMethod}</Form.Label>
                         <p></p>
                         <Form.Control as="select" size="sm" onChange={(e)=>this.onScoreMethodChange(e)} value={this.state.scoringMethod}>
-                            <option value='1' >The simple method: 1 point for each correct guess (1, 2 or x)</option>
-                            <option value='2' >The simple method with an option for bonus games (2 points)</option>
+                            <option value='1' > (2, x, 1) השיטה הבסיסית - נקודה לכל ניחוש נכון בטופס </option>
+                            <option value='2' >השיטה הבסיסית עם משחקי בונוס (2 נק')</option>
+                            <option value='2' >שיטת היורו (בקרוב)</option>
                         </Form.Control>
                     </Form.Group>
                     <Form.Group>
