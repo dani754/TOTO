@@ -21,7 +21,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://dani754.github.io/TOTO/",
+  "homepage": "https://www.totoshemesh.org/",
   "eslintConfig": {
     "extends": [
       "react-app",
