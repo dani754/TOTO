@@ -142,20 +142,20 @@ export default class CyclesUpdate extends React.Component {
                 <div>
                     <Table striped bordered hover variant="dark">
                         <thead>
-                            <tr  >
-                            <th>#</th> 
-                            <th>Home Team</th> 
-                            <th>Away Team</th> 
-                            <th>Score</th> 
+                            <tr>
+                                <th>תוצאה</th> 
+                                <th>קבוצת חוץ</th> 
+                                <th>קבוצת בית</th> 
+                                <th>#</th> 
                             </tr>
                         </thead>
                         <tbody>
                             {tableArray.map((game, i) => {
                                 return( <tr key={i} >
-                                            <td>{i+1}</td>
-                                            <td>{game.hometeam}</td>
-                                            <td>{game.awayteam}</td>
                                             <td>{game.score}</td>
+                                            <td>{game.awayteam}</td>
+                                            <td>{game.hometeam}</td>
+                                            <td>{i+1}</td>
                                         </tr>
                                 );
                             })}                
@@ -170,18 +170,15 @@ export default class CyclesUpdate extends React.Component {
                         <Table striped bordered hover variant="dark" >
                             <thead>
                                 <tr >
-                                <th>#</th> 
-                                <th>Home Team</th> 
-                                <th>Away Team</th> 
-                                <th>Score</th> 
+                                    <th>תוצאה</th> 
+                                    <th>קבוצת חוץ</th> 
+                                    <th>קבוצת בית</th> 
+                                    <th>#</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                     {tableArray.map((game,i) => {
                                         return( <tr key={i} >
-                                                    <td>{i+1}</td>
-                                                    <td>{game.hometeam}</td>
-                                                    <td>{game.awayteam}</td>
                                                     <td>
                                                         <Form.Group>
                                                             <Form.Control as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.newScore}>
@@ -192,6 +189,9 @@ export default class CyclesUpdate extends React.Component {
                                                             </Form.Control>
                                                         </Form.Group>
                                                     </td>
+                                                    <td>{game.awayteam}</td>
+                                                    <td>{game.hometeam}</td>
+                                                    <td>{i+1}</td>
                                                 </tr>
                                         );
                                     })}    
@@ -208,22 +208,22 @@ export default class CyclesUpdate extends React.Component {
                         <Table striped bordered hover variant="dark">
                             <thead>
                                 <tr>
-                                <th>#</th> 
-                                <th>Home Team</th> 
-                                <th>Away Team</th> 
-                                <th>update</th> 
+                                    <th></th> 
+                                    <th>קבוצת חוץ</th> 
+                                    <th>קבוצת בית</th> 
+                                    <th>#</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>*</td>
-                                    <td><Form.Group>
-                                        <Form.Control type="text" placeholder="home team" onChange={(e) => this.setState({hometeam: e.target.value})} value={this.state.hometeam} />
-                                    </Form.Group></td>
+                                    <td> <Button style={{color: "black"}} type="button" onClick={()=> this.addGame()}  > add </Button> </td>
                                     <td><Form.Group>
                                         <Form.Control type="text" placeholder="away team" onChange={(e) => this.setState({awayteam: e.target.value})} value={this.state.awayteam} />
                                     </Form.Group></td>
-                                    <td> <Button style={{color: "black"}} type="button" onClick={()=> this.addGame()}  > add </Button> </td>
+                                    <td><Form.Group>
+                                        <Form.Control type="text" placeholder="home team" onChange={(e) => this.setState({hometeam: e.target.value})} value={this.state.hometeam} />
+                                    </Form.Group></td>
+                                    <td>*</td>
                                 </tr>    
                             </tbody>
                         </Table>
@@ -237,33 +237,32 @@ export default class CyclesUpdate extends React.Component {
                         <Table striped bordered hover variant="dark">
                             <thead>
                                 <tr>
-                                <th>#</th> 
-                                <th>Home Team</th> 
-                                <th>Away Team</th> 
-                                <th>update</th> 
+                                    <th></th> 
+                                    <th>קבוצת חוץ</th> 
+                                    <th>קבוצת בית</th> 
+                                    <th>#</th> 
                                 </tr>
                             </thead>
                             <tbody>
-                                    {tableArray.map((game,i) => {
-                                        return( <tr key={i} >
-                                                    <td>{i+1}</td>
-                                                    <td>{game.hometeam}</td>
-                                                    <td>{game.awayteam}</td>
-                                                    <td>
-                                                        <Button variant="outline-secondary" >delete</Button></td>
-                                                </tr>
-                                        );
-                                    })}
-                                    <tr>
-                                                    <td>*</td>
-                                                    <td><Form.Group>
-                                                        <Form.Control type="text" placeholder="home team" onChange={(e) => this.setState({hometeam: e.target.value})} value={this.state.hometeam} />
-                                                    </Form.Group></td>
-                                                    <td><Form.Group>
-                                                        <Form.Control type="text" placeholder="away team" onChange={(e) => this.setState({awayteam: e.target.value})} value={this.state.awayteam} />
-                                                    </Form.Group></td>
-                                                    <td> <Button style={{color: "black"}} type="button" onClick={()=> this.addGame()}  > add </Button> </td>
-                                                </tr>    
+                                {tableArray.map((game,i) => {
+                                    return( <tr key={i} >
+                                                <td><Button variant="outline-secondary" >delete</Button></td>
+                                                <td>{game.awayteam}</td>
+                                                <td>{game.hometeam}</td>
+                                                <td>{i+1}</td>
+                                            </tr>
+                                    );
+                                })}
+                                <tr>
+                                    <td> <Button style={{color: "black"}} type="button" onClick={()=> this.addGame()}  > add </Button> </td>
+                                    <td><Form.Group>
+                                        <Form.Control type="text" placeholder="away team" onChange={(e) => this.setState({awayteam: e.target.value})} value={this.state.awayteam} />
+                                    </Form.Group></td>
+                                    <td><Form.Group>
+                                        <Form.Control type="text" placeholder="home team" onChange={(e) => this.setState({hometeam: e.target.value})} value={this.state.hometeam} />
+                                    </Form.Group></td>
+                                    <td>*</td>
+                                </tr>    
                             </tbody>
                         </Table>
                     </Form>
