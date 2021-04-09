@@ -8,31 +8,51 @@ export default function AdminNav(props){
     allCycles.sort(function(a, b){return b-a});
     let actions = <></>;
     if (props.cycleID > 0){
-        actions =  <NavDropdown id="nav-dropdown"  title="edit cycle"  className="secondNavItem"  >
-                        <NavDropdown.Item eventKey="lock" >lock cycle (no more bets) </NavDropdown.Item>
-                        <NavDropdown.Item eventKey="close" >close cycle (no more scores updates) </NavDropdown.Item>
+        actions =  <NavDropdown id="nav-dropdown"  title="שינוי סטטוס מחזור נוכחי"  className="secondNavItem"  >
+                        <NavDropdown.Item eventKey="lock" > נעילת מחזור להימורים </NavDropdown.Item>
+                        <NavDropdown.Item eventKey="close" > סגירת מחזור (נועל את התוצאות ומוסיף את המחזור הבא לטבלת הליגה)</NavDropdown.Item>
                     </NavDropdown>
     }
-    return (
-        <div >
-            <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} >
-                <Nav.Item className="secondNavItem">
-                    <Nav.Link  eventKey={props.cycleID} >Cycle {allCycles.length-allCycles.indexOf(parseInt(props.cycleID))} </Nav.Link>
-                </Nav.Item>
-                {actions}
-                <NavDropdown id="nav-dropdown"  title="switch cycle"  className="secondNavItem"  >
-                    {allCycles.map((id,i)=>{
-                        return(
-                            <NavDropdown.Item eventKey={id} key={i} >cycle {allCycles.length-i}</NavDropdown.Item>
-                        ); 
-                    })}
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item eventKey="addCycle" > add a new cycle </NavDropdown.Item>
-                </NavDropdown>
-                <Nav.Item className="secondNavItem">
-                    <Nav.Link  eventKey="LeagueData">League Data</Nav.Link>
-                </Nav.Item>
-            </Nav>
-        </div>
-    );
+    if (props.cycleID===0){
+        return (
+            <div >
+                <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} className="adminNav" >
+                    <NavDropdown id="nav-dropdown"  title="החלף מחזור"  className="secondNavItem"  >
+                        {allCycles.map((id,i)=>{
+                            return(
+                                <NavDropdown.Item eventKey={id} key={i} > {allCycles.length-i} מחזור</NavDropdown.Item>
+                            ); 
+                        })}
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item eventKey="addCycle" >הוסף מחזור חדש  </NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Item className="secondNavItem">
+                        <Nav.Link  eventKey="LeagueData">עמוד ליגה</Nav.Link>
+                    </Nav.Item>
+                </Nav>
+            </div>
+        );
+    } else {
+        return (
+            <div >
+                <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} className="adminNav" >
+                    <Nav.Item className="secondNavItem">
+                        <Nav.Link  eventKey={props.cycleID} > {allCycles.length-allCycles.indexOf(parseInt(props.cycleID))} מחזור </Nav.Link>
+                    </Nav.Item>
+                    <NavDropdown id="nav-dropdown"  title="החלף מחזור"  className="secondNavItem"  >
+                        {allCycles.map((id,i)=>{
+                            return(
+                                <NavDropdown.Item eventKey={id} key={i} > {allCycles.length-i} מחזור</NavDropdown.Item>
+                            ); 
+                        })}
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item eventKey="addCycle" >הוסף מחזור חדש  </NavDropdown.Item>
+                    </NavDropdown>
+                    <Nav.Item className="secondNavItem">
+                        <Nav.Link  eventKey="LeagueData">עמוד ליגה</Nav.Link>
+                    </Nav.Item>
+                </Nav>
+            </div>
+        );
+    }   
 }

@@ -169,7 +169,7 @@ export default class CycleTable extends React.Component {
                                             <td>{game.userBet}</td>
                                             <td>{game.awayteam}</td>
                                             <td>{game.hometeam}</td>
-                                            <td><strong>!</strong></td>
+                                            <td className="hebrew" >בונוס</td>
                                         </tr>
                                     );
                                 } else {
@@ -234,7 +234,7 @@ export default class CycleTable extends React.Component {
                         <tbody>
                             {tableArray.map((game,i) => {
                                 if (game.isbonus){
-                                    return( <tr key={i} className="hebrew bonus" >
+                                    return( <tr key={i} className="bonusLineFour" >
                                             <td className="hebrew" className="bet" >
                                                 <Form.Group className="bet" >
                                                     <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
@@ -247,7 +247,7 @@ export default class CycleTable extends React.Component {
                                             </td>
                                             <td>{game.awayteam}</td>
                                             <td>{game.hometeam}</td>
-                                            <td>{game.bonus}{i+1}</td>
+                                            <td className="hebrew" >בונוס</td>
                                         </tr>
                                     );
                                 } else {

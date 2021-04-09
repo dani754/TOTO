@@ -35,7 +35,6 @@ export default class AdminPage extends React.Component {
         .then((res) => res.json())
         .then((data) => {
             let result = data;
-            console.log("league data in admin page", result);
             this.setState({
                 leagueID: result.leagueid,
                 leagueName: result.leaguename,
@@ -44,8 +43,9 @@ export default class AdminPage extends React.Component {
                 names_array: result.names_array,
                 scores_array: result.scores_array,
                 current_cycle: result.current_cycle,
-                table: 0,
+                scoring_method: result.scoring_method,
             });
+            console.log("league data in admin page", result, this.state);
         }).catch(err => console.log('AdminPage', err))
     }
 
@@ -96,7 +96,7 @@ export default class AdminPage extends React.Component {
         switch(eventKey){
             case "LeagueData":
                 this.setState({showCycle: 0});
-                returnedTable = <LeagueData data={this.state} />;
+                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
                 break;
             case "addCycle":
                 this.setState({toast: <AddCycle  show={true} /> });
@@ -116,7 +116,9 @@ export default class AdminPage extends React.Component {
             default: {
                 this.setState({showCycle: eventKey});
                 returnedTable = <CyclesUpdate data={this.state} cycleID={parseInt(eventKey)}
-                                                onSubmit={()=> this.setState({leagueID: 0})} />
+                                                onSubmit={()=> this.setState({leagueID: 0})} 
+                                                onSelect={(eventKey)=>{this.switchTab(eventKey)}}
+                                                />
             }
         }
         this.setState({table: returnedTable});
@@ -142,7 +144,7 @@ export default class AdminPage extends React.Component {
                 {toast}
                 <AdminNav   onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
                             cycles={this.state.cyclesIDs} 
-                            cycleID = {this.state.showCycle}  />
+                            cycleID = {this.state.showCycle} />
                 <p></p>
                 {Content}
             </div>

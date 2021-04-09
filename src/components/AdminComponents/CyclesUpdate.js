@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import '../../style.css';
+import '../../importStyle.css';
+
 
 export default class CyclesUpdate extends React.Component {
     constructor (props){
@@ -127,6 +129,35 @@ export default class CyclesUpdate extends React.Component {
         }).catch(err => console.log("deletegame", err))
     }
 
+    unCloseCycle = () => {
+        let url = `https://toto-server.herokuapp.com/unclosecycle/${this.state.cycleID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response unclosecycle", res)
+            res.json()
+        }).then((data) => {
+            console.log("response unclosecycle", data)
+        }).catch(err => console.log("unclosecycle", err))
+    }
+
+    unLockCycle = () => {
+        let url = `https://toto-server.herokuapp.com/unlockcycle/${this.state.cycleID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response unlockcycle", res)
+            res.json()
+        }).then((data) => {
+            console.log("response unlockcycle", data)
+        }).catch(err => console.log("unlockcycle", err))
+    }
+
+
 
     render (){
         let url = `https://toto-server.herokuapp.com/home/cycle/${this.props.cycleID}`;
@@ -140,6 +171,7 @@ export default class CyclesUpdate extends React.Component {
         if (this.state.isClosed){
             return(
                 <div>
+                    <Button onClick={()=>this.unCloseCycle()} >שחרר נעילת מחזור</Button>
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
@@ -166,6 +198,9 @@ export default class CyclesUpdate extends React.Component {
         } else if (this.state.isLocked) {
             return (
                 <div>
+                    <Button onClick={()=>this.props.onSelect("close")} >סגירת מחזור (לאחר סיום עדכון תוצאות המשחקים)</Button>
+                    <break></break>
+                    <Button onClick={()=>this.unLockCycle()} >ביטול נעילת מחזור</Button>
                     <Form onSubmit={()=>this.updateScores()}>
                         <Table striped bordered hover variant="dark" >
                             <thead>
