@@ -50,10 +50,13 @@ export default class CyclesUpdate extends React.Component {
         let newTable = [{gameid: 1, hometeam: 'await', awayteam: 'await', score: 'await', cycleid: this.props.cycleID}];
         if (Array.isArray(this.state.gamesDB) && this.state.gamesDB.length > 0){
             newTable = this.state.gamesDB.map((game)=>{
+                let score = game.score;
+                if (this.state.isClosed && score === 3)
+                    score = 'x';
                 return {
                     hometeam: game.hometeam,
                     awayteam: game.awayteam,
-                    score: game.score,
+                    score: score,
                     newScore: game.score,
                     cycleid: game.cycleid,
                     gameID: game.gameid,

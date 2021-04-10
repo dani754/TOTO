@@ -1,0 +1,4 @@
+AdminPage.js
+
+if setState leagueID = 0 and props leagueID != 0:
+refresh admin page - fetch league data from server
