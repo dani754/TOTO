@@ -95,7 +95,6 @@ export default class AdminPage extends React.Component {
         let returnedTable;
         switch(eventKey){
             case "LeagueData":
-                this.setState({showCycle: 0});
                 returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
                 break;
             case "addCycle":
