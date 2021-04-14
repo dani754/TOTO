@@ -2,7 +2,6 @@ import React from 'react';
 import LeaguePageNavbar from '../LeagueComponents/LeaguePageNavbar';
 import LeagueTable from '../LeagueComponents/LeagueTable';
 import CycleTable from '../LeagueComponents/CycleTable';
-import CycleBets from '../LeagueComponents/CycleBets';
 import CheckBetsAfterUpdate from '../LeagueComponents/CheckBetsAfterUpdate';
 import '../../style.css';
 import '../../importStyle.css';
