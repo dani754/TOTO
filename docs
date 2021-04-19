@@ -86,30 +86,52 @@ close  //
 unclose   //
 LeagueData   //
 
-from switchtab function in admin page:
-case "LeagueData":
-this.setState({showCycle: 0});
-returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-break;
-case "addCycle":
-this.setState({toast: <AddCycle  show={true} /> });
-this.addCycle(this.state.leagueID);
-returnedTable = <LeagueData data={this.state} />;
-break; 
-case "close":
-this.setState({toast: <CloseCycle show={true} /> });
-this.closeCycle(this.state.showCycle);
-returnedTable = <LeagueData data={this.state} />;
-break;
-case "lock":
-this.setState({toast: <LockCycle show={true} /> });
-this.lockCycle(this.state.showCycle);
-returnedTable = <LeagueData data={this.state} />;
-break;
-default: {
-this.setState({showCycle: eventKey});
-returnedTable = <CyclesUpdate data={this.state} cycleID={parseInt(eventKey)}
+CycleUpdate class
+
+props from AdminPage.js:
+data={this.state}
+cycleID={parseInt(eventKey)}
 onSubmit={()=> this.setState({leagueID: 0})} 
 onSelect={(eventKey)=>{this.switchTab(eventKey)}}
-/>
-this.setState({table: returnedTable});
+
+initial state:
+cycleID: 0,             //fetch cycleData
+gamesIDs: [],           //fetch cycleData
+cycleOrderInLeague: 0,  //fetch cycleData
+isLocked: true,         //fetch cycleData
+isClosed: true,         //fetch cycleData
+membersScores: [],      //fetch cycleData
+gamesDB: [],            //fetch cycleData
+table: [{gameid: 1, hometeam: 'await', awayteam: 'await', score: 'await', cycleid: 0}],  //setTable
+gamesToAdd: 0,          //handleGamesInput
+hometeam: [''],         //handleGamesInput
+awayteam: [''],        //handleGamesInput
+
+functions:
+cycleData //fetch from server
+setTable  //set games table
+handleGamesInput //captures games input for addition when cycle is not locked
+addGame  //update games add when cycle is not locked
+deleteGame //update games delete when cycle is not locked
+handleChange  //captures games score input when cycle is locked
+updateScores  //update scores when cycle is locked
+
+render:
+
+//when state.cycleID == 0 - update cycle data from server:
+//(without changing AdminPage data!)
+if this.state.cycleID !== props.cycleID
+    fetch cycleData(this.props.cycleID)
+
+//when cycle is locked - shows games list:
+let tableArray = this.state.table;
+//if this is a valid cycleID and the first game in table rray doesnt belong to this cycle
+//refresh by changing the first game cycleID to 0 (update cycle data first?)
+if (tableArray[0].cycleid !== this.state.cycleID && this.state.cycleID !== 0){
+    this.setTable();
+}
+
+//if isclosed - only shows list of games and scores
+//if islocked (and not closed) - shows game list and update scores
+//if unlocked and has games in DB - shows games list with option to delete or add more games + bonus checkbox
+//if no games in cycle - add games
