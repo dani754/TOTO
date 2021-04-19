@@ -19,13 +19,15 @@ export default class AdminPage extends React.Component {
             names_array: [],
             scores_array: [],
             current_cycle: 0,
+            scoring_method: 1,
+            cyclesDB: 0,
             showCycle: 0,
             table: 0,
             toast: <p></p>,
         }
     }
 
-    leagueData = (url) => {
+    fullLeagueData = (url) => {
         fetch(url,
         {
             method: "get",
@@ -44,6 +46,7 @@ export default class AdminPage extends React.Component {
                 scores_array: result.scores_array,
                 current_cycle: result.current_cycle,
                 scoring_method: result.scoring_method,
+                cyclesDB: result.cyclesDB,
             });
             console.log("league data in admin page", result, this.state);
         }).catch(err => console.log('AdminPage', err))
@@ -126,9 +129,9 @@ export default class AdminPage extends React.Component {
 
     render (){
         if (this.props.leagueID !== 0){
-            let url = `https://toto-server.herokuapp.com/home/league/${this.props.leagueID}`;
+            let url = `https://toto-server.herokuapp.com/home/leagueadmin/${this.props.leagueID}`;
             if (this.state.leagueID === 0){
-                this.leagueData(url);
+                this.fullLeagueData(url);
             }
         }
         let Content = this.state.table;
@@ -136,14 +139,21 @@ export default class AdminPage extends React.Component {
             this.switchTab(this.state.current_cycle);
         };
         let toast = this.state.toast;
+        let cyclesArray = this.state.cyclesDB;
+        let cycleData = 0;
+        if (Array.isArray(cyclesArray) && this.state.showCycle > 0){
+            cycleData = cyclesArray.find( cycle => cycle.cycleid === parseInt(this.state.showCycle))
+        }
         return (
             <div>
                 <p></p>
-                <h1 > League {this.state.leagueName} - Admin Page </h1>
+                <h1 > ליגת  {this.state.leagueName} - עמוד ניהול </h1>
                 {toast}
                 <AdminNav   onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
                             cycles={this.state.cyclesIDs} 
-                            cycleID = {this.state.showCycle} />
+                            cycleID = {this.state.showCycle}
+                            cycleData = {cycleData}
+                             />
                 <p></p>
                 {Content}
             </div>

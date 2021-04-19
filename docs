@@ -1,4 +1,54 @@
 AdminPage.js
 
-if setState leagueID = 0 and props leagueID != 0:
-refresh admin page - fetch league data from server
+props from Home.js:
+leagueID = {this.state.isAdmin}
+
+initial state:
+leagueID: 0,        // fetch fullLeagueData
+leagueName: '',     // fetch fullLeagueData
+cyclesIDs: [],      // fetch fullLeagueData
+membersIDs: [],     // fetch fullLeagueData
+names_array: [],    // fetch fullLeagueData
+scores_array: [],   // fetch fullLeagueData
+current_cycle: 0,   // fetch fullLeagueData
+scoring_method: 1,  // fetch fullLeagueData
+cyclesDB: 0,        // fetch fullLeagueData
+showCycle: 0,       //switchTab()
+table: 0,           //switchTab()
+toast: <p></p>,     //switchTab()
+
+import components:
+AdminNav
+CyclesUpdate
+LeagueData
+AddCycle
+CloseCycle
+LockCycle
+
+functions:
+addCycle
+closeCycle
+lockCycle
+fullLeagueData(url)
+switchTab(eventKey)
+
+render:
+
+//setState leagueID=0 to refresh data from server:
+if props leagueID !== 0 & this.state.leagueID === 0 
+    fetch fullLeagueData(props leagueID) from server
+
+//use switchTab() to update main content
+let Content = this.state.table;
+if Content === 0 && this.state.leagueID !== 0  // initial content
+    this.switchTab(this.state.current_cycle)   // stored in server, update in LeagueData
+
+//pop-up messages       
+let toast = this.state.toast;
+
+//sends to navbar data on current shown cycle from state.cyclesDB
+let cyclesArray = this.state.cyclesDB;
+let cycleData = 0;
+if Array.isArray(cyclesArray) && this.state.showCycle > 0 //make sure the data is already fetched from server
+    cycleData = cyclesArray.find( cycle => cycle.cycleid === parseInt(this.state.showCycle))
+
