@@ -2,10 +2,8 @@ import React from 'react';
 import AdminNav from '../AdminComponents/AdminNav';
 import CyclesUpdate from '../AdminComponents/CyclesUpdate';
 import LeagueData from '../AdminComponents/LeagueData';
-import AddCycle from '../AdminComponents/AddCycle';
-import CloseCycle from '../AdminComponents/CloseCycle';
-import LockCycle from '../AdminComponents/LockCycle';
-import '../../style.css';
+import * as Actions from '../AdminComponents/CycleActions';
+import ToastMessage from '../ToastMessage';
 import '../../importStyle.css';
 
 export default class AdminPage extends React.Component {
@@ -52,48 +50,6 @@ export default class AdminPage extends React.Component {
         }).catch(err => console.log('AdminPage', err))
     }
 
-    addCycle = (leagueID) => {
-        fetch(`https://toto-server.herokuapp.com/addcycle/${leagueID}`,
-        {
-            method: "get",
-            dataType: "json",
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            let result = data;
-            console.log("add cycle", result);
-        }).catch(err => console.log('AdminPage', err))
-    }
-
-    closeCycle = (cycleID) => {
-        fetch(`https://toto-server.herokuapp.com/closecycle/${cycleID}`,
-        {
-            method: "get",
-            dataType: "json",
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            let result = data;
-            console.log("close cycle", result);
-        }).catch(err => console.log('AdminPage', err))
-    }
-
-    lockCycle = (cycleID) => {
-        fetch(`https://toto-server.herokuapp.com/lockcycle/${cycleID}`,
-        {
-            method: "get",
-            dataType: "json",
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            let result = data;
-            console.log("lock cycle", result);
-        }).catch(err => console.log('AdminPage', err))
-    }
-
     switchTab = (eventKey) => {
         let returnedTable;
         switch(eventKey){
@@ -102,23 +58,43 @@ export default class AdminPage extends React.Component {
                 returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
                 break;
             case "addCycle":
-                this.setState({toast: <AddCycle  show={true} /> });
-                this.addCycle(this.state.leagueID);
+                Actions.addCycle (this.props.leagueID);
+                this.setState({toast: <ToastMessage pop={true} onClose= {()=>{this.setState({toast: 0})}}
+                                                    message="נוסף מחזור חדש לליגה!"   /> ,
+                                                    leagueID: 0, showCycle: 0});
                 returnedTable = <LeagueData data={this.state} />;
                 break; 
             case "close":
-                this.setState({toast: <CloseCycle show={true} /> });
-                this.closeCycle(this.state.showCycle);
+                Actions.closeCycle (this.state.showCycle);
+                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                                                    message="המחזור סגור - לא ניתן לעדכן יותר תוצאות"   /> ,
+                                                    leagueID: 0});
                 returnedTable = <LeagueData data={this.state} />;
                 break;
             case "lock":
-                this.setState({toast: <LockCycle show={true} /> });
-                this.lockCycle(this.state.showCycle);
+                Actions.lockCycle (this.state.showCycle);
+                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                                                    message="המחזור נעול - לא ניתן להמר"   /> ,
+                                                    leagueID: 0});
+                returnedTable = <LeagueData data={this.state} />;
+                break;
+            case "unlock":
+                Actions.unlockCycle (this.state.showCycle);
+                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                                                    message="נעילת המחזור בוטלה"   /> ,
+                                                    leagueID: 0});
+                returnedTable = <LeagueData data={this.state} />;
+                break;
+            case "unclose":
+                Actions.uncloseCycle (this.state.showCycle);
+                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                                                    message="המחזור נפתח לעדכון תוצאות משחקים"   /> ,
+                                                    leagueID: 0});
                 returnedTable = <LeagueData data={this.state} />;
                 break;
             default: {
                 this.setState({showCycle: eventKey});
-                returnedTable = <CyclesUpdate data={this.state} cycleID={parseInt(eventKey)}
+                returnedTable = <CyclesUpdate   data={this.state} cycleID={parseInt(eventKey)}
                                                 onSubmit={()=> this.setState({leagueID: 0})} 
                                                 onSelect={(eventKey)=>{this.switchTab(eventKey)}}
                                                 />

@@ -84,7 +84,6 @@ lock  //
 unlock  //
 close  //
 unclose   //
-addCycle   //
 LeagueData   //
 
 from switchtab function in admin page:

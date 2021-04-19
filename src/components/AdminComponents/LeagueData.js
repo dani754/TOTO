@@ -74,7 +74,7 @@ export default class LeagueData extends React.Component {
 
     render (){
 
-        let leagueNameProp = <Col><Form.Label className="Hebrew" >שם הליגה:   {this.state.currentLeagueName} </Form.Label></Col>
+        let leagueNameProp = <Col><Form.Label className="Hebrew"  >שם הליגה:      {this.state.currentLeagueName} </Form.Label></Col>
         if (this.state.changeLeagueName){
             leagueNameProp =   <><Col><Button onClick={()=>this.changeLeagueName()} > עדכן </Button></Col>
                                 <Col><Form.Control className="Hebrew" placeholder={this.state.currentLeagueName} onChange={(e)=>this.onLeagueNameChange(e)} /></Col></>
