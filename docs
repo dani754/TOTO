@@ -125,7 +125,7 @@ if this.state.cycleID !== props.cycleID
 
 //when cycle is locked - shows games list:
 let tableArray = this.state.table;
-//if this is a valid cycleID and the first game in table rray doesnt belong to this cycle
+//if this is a valid cycleID and the first game in table array doesnt belong to this cycle
 //refresh by changing the first game cycleID to 0 (update cycle data first?)
 if (tableArray[0].cycleid !== this.state.cycleID && this.state.cycleID !== 0){
     this.setTable();

@@ -61,6 +61,7 @@ export default class CyclesUpdate extends React.Component {
                     newScore: game.score,
                     cycleid: game.cycleid,
                     gameID: game.gameid,
+                    isbonus: game.isbonus,
                 };
             });
         }
@@ -80,7 +81,7 @@ export default class CyclesUpdate extends React.Component {
     }
 
     addGames = () => {
-        for (let i=0; i< this.state.gamesToAdd; i++){
+        for (let i=0; i<= this.state.gamesToAdd; i++){
             if (this.state.hometeam[i] !== '' && this.state.awayteam[i] !== ''){
                 fetch('https://toto-server.herokuapp.com/addgame',
                     {
@@ -97,9 +98,21 @@ export default class CyclesUpdate extends React.Component {
                     })
                     .then((res) => res.json())
                     .then((data) => {
+                        if (i===this.state.gamesToAdd){
+                            let renderUpdateTable = this.state.table;
+                            renderUpdateTable[0].cycleid = 0;
+                            this.setState({
+                                cycleID: 0,
+                                gamesToAdd: 0,
+                                hometeam: [""],
+                                awayteam: [""],
+                                table: renderUpdateTable,
+                            })                            
+                        }
                         this.props.onSubmit();
                     }).catch(err => console.log("addGame", err))
             }
+            
         }
     }
     
@@ -114,8 +127,56 @@ export default class CyclesUpdate extends React.Component {
             console.log("response deletegame", res)
             res.json()
         }).then((data) => {
+            let renderUpdateTable = this.state.table;
+            renderUpdateTable[0].cycleid = 0;
+            this.setState({
+                cycleID: 0,
+                table: renderUpdateTable,
+            })   
             console.log("response deletegame", data)
         }).catch(err => console.log("deletegame", err))
+    }
+
+    markAsBonusGame = (gameID) => {
+        console.log("bunus game", gameID);
+        let url = `https://toto-server.herokuapp.com/bonusgame/${gameID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response bonusgame", res)
+            res.json()
+        }).then((data) => {
+            let renderUpdateTable = this.state.table;
+            renderUpdateTable[0].cycleid = 0;
+            this.setState({
+                cycleID: 0,
+                table: renderUpdateTable,
+            }) 
+            console.log("response bonusgame", data)
+        }).catch(err => console.log("bonusgame", err))
+    }
+
+    unmarkAsBonusGame = (gameID) => {
+        console.log("un-bunus game", gameID);
+        let url = `https://toto-server.herokuapp.com/unbonusgame/${gameID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response unbonusgame", res)
+            res.json()
+        }).then((data) => {
+            let renderUpdateTable = this.state.table;
+            renderUpdateTable[0].cycleid = 0;
+            this.setState({
+                cycleID: 0,
+                table: renderUpdateTable,
+            }) 
+            console.log("response unbonusgame", data)
+        }).catch(err => console.log("unbonusgame", err))
     }
 
     handleChange = (e, i) => {
@@ -170,13 +231,21 @@ export default class CyclesUpdate extends React.Component {
                         </thead>
                         <tbody>
                             {tableArray.map((game, i) => {
-                                return( <tr key={i} >
-                                            <td>{game.score}</td>
-                                            <td>{game.awayteam}</td>
-                                            <td>{game.hometeam}</td>
-                                            <td>{i+1}</td>
-                                        </tr>
-                                );
+                                if (game.isbonus){
+                                    return( <tr key={i} className="bonusLineFour" >
+                                        <td>{game.score}</td>
+                                        <td>{game.awayteam}</td>
+                                        <td>{game.hometeam}</td>
+                                        <td>{i+1}</td>
+                                    </tr>
+                                );} else {
+                                    return( <tr key={i} >
+                                        <td>{game.score}</td>
+                                        <td>{game.awayteam}</td>
+                                        <td>{game.hometeam}</td>
+                                        <td>{i+1}</td>
+                                    </tr>
+                                );}
                             })}                
                         </tbody>
                     </Table>
@@ -197,22 +266,39 @@ export default class CyclesUpdate extends React.Component {
                             </thead>
                             <tbody>
                                     {tableArray.map((game,i) => {
-                                        return( <tr key={i} >
-                                                    <td>
-                                                        <Form.Group>
-                                                            <Form.Control as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.newScore}>
-                                                                <option value='0' >await</option>
-                                                                <option value='1' >1</option>
-                                                                <option value='2' >2</option>
-                                                                <option value='3' >x</option>
-                                                            </Form.Control>
-                                                        </Form.Group>
-                                                    </td>
-                                                    <td>{game.awayteam}</td>
-                                                    <td>{game.hometeam}</td>
-                                                    <td>{i+1}</td>
-                                                </tr>
-                                        );
+                                        if (game.isbonus){
+                                            return( <tr key={i}  className="bonusLineFour" >
+                                                <td>
+                                                    <Form.Group>
+                                                        <Form.Control as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.newScore}>
+                                                            <option value='0' >await</option>
+                                                            <option value='1' >1</option>
+                                                            <option value='2' >2</option>
+                                                            <option value='3' >x</option>
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                </td>
+                                                <td>{game.awayteam}</td>
+                                                <td>{game.hometeam}</td>
+                                                <td>{i+1}</td>
+                                            </tr>
+                                        );} else {
+                                            return( <tr key={i} >
+                                                <td>
+                                                    <Form.Group>
+                                                        <Form.Control as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.newScore}>
+                                                            <option value='0' >await</option>
+                                                            <option value='1' >1</option>
+                                                            <option value='2' >2</option>
+                                                            <option value='3' >x</option>
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                </td>
+                                                <td>{game.awayteam}</td>
+                                                <td>{game.hometeam}</td>
+                                                <td>{i+1}</td>
+                                            </tr>
+                                        );}
                                     })}    
                             </tbody>
                             <Button style={{color: "black"}} type="button" onClick={()=>this.updateScores()} >update scores</Button>
@@ -236,13 +322,27 @@ export default class CyclesUpdate extends React.Component {
                             </thead>
                             <tbody>
                                 {tableArray.map((game,i) => {
+                                    if (game.isbonus){
+                                        return( <tr key={i}  className="bonusLineFour" >
+                                            <td>
+                                                <Button variant="outline-secondary" onClick={()=> this.deleteGame(game.gameID)}  >מחיקה</Button>
+                                                <Button variant="outline-secondary"  onClick={()=> this.unmarkAsBonusGame(game.gameID)} >בטל סימון כבונוס</Button>
+                                            </td>
+                                            <td>{game.awayteam}</td>
+                                            <td>{game.hometeam}</td>
+                                            <td>{i+1}</td>
+                                        </tr>
+                                    );} else {
                                         return( <tr key={i} >
-                                                    <td><Button variant="outline-secondary" >delete</Button></td>
-                                                    <td>{game.awayteam}</td>
-                                                    <td>{game.hometeam}</td>
-                                                    <td>{i+1}</td>
-                                                </tr>
-                                        );
+                                            <td>
+                                                <Button variant="outline-secondary" onClick={()=> this.deleteGame(game.gameID)}  >מחיקה</Button>
+                                                <Button variant="outline-secondary"  onClick={()=> this.markAsBonusGame(game.gameID)} >סמן כבונוס</Button>
+                                            </td>
+                                            <td>{game.awayteam}</td>
+                                            <td>{game.hometeam}</td>
+                                            <td>{i+1}</td>
+                                        </tr>
+                                    );}
                                 })}
                                 {gamesArray.map((x,i) => {
                                     return( <tr key={i} className="Hebrew" >
