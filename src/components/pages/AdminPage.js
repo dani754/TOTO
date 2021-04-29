@@ -22,6 +22,7 @@ export default class AdminPage extends React.Component {
             showCycle: 0,
             table: 0,
             toast: <p></p>,
+            refresh: false,
         }
     }
 
@@ -45,13 +46,14 @@ export default class AdminPage extends React.Component {
                 current_cycle: result.current_cycle,
                 scoring_method: result.scoring_method,
                 cyclesDB: result.cyclesDB,
+                refresh: true,
             });
             console.log("league data in admin page", result, this.state);
         }).catch(err => console.log('AdminPage', err))
     }
 
     switchTab = (eventKey) => {
-        let returnedTable;
+        let returnedTable; 
         switch(eventKey){
             case "LeagueData":
                 this.setState({showCycle: 0});
@@ -61,43 +63,57 @@ export default class AdminPage extends React.Component {
                 Actions.addCycle (this.props.leagueID);
                 this.setState({toast: <ToastMessage pop={true} onClose= {()=>{this.setState({toast: 0})}}
                                                     message="נוסף מחזור חדש לליגה!"   /> ,
-                                                    leagueID: 0, showCycle: 0});
-                returnedTable = <LeagueData data={this.state} />;
+                            leagueID: 0});
+                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
                 break; 
             case "close":
                 Actions.closeCycle (this.state.showCycle);
                 this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
                                                     message="המחזור סגור - לא ניתן לעדכן יותר תוצאות"   /> ,
-                                                    leagueID: 0});
-                returnedTable = <LeagueData data={this.state} />;
-                break;
+                            leagueID: 0});
+                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
+                break; 
             case "lock":
-                Actions.lockCycle (this.state.showCycle);
-                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                                                    message="המחזור נעול - לא ניתן להמר"   /> ,
-                                                    leagueID: 0});
-                returnedTable = <LeagueData data={this.state} />;
-                break;
+                let verified = Actions.verifyBets
+                if (verified){
+                    Actions.lockCycle (this.state.showCycle);
+                    this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                                                        message="המחזור נעול - לא ניתן להמר"   /> ,
+                                leagueID: 0});
+                    returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
+                } else {
+                    this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                    message="קיימים שחקנים שטרם שלחו הימור - לא ניתן לנעול את המחזור"   /> ,
+                    leagueID: 0});
+                    returnedTable = <CyclesUpdate   data={this.state} cycleID={this.state.showCycle}
+                                                onSelect={(eventKey)=>{this.switchTab(eventKey)}} />;
+                }
+                break; 
             case "unlock":
-                Actions.unlockCycle (this.state.showCycle);
                 this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
                                                     message="נעילת המחזור בוטלה"   /> ,
-                                                    leagueID: 0});
-                returnedTable = <LeagueData data={this.state} />;
-                break;
+                            leagueID: 0});
+                Actions.unlockCycle (this.state.showCycle);
+                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
+                break; 
             case "unclose":
                 Actions.uncloseCycle (this.state.showCycle);
                 this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
                                                     message="המחזור נפתח לעדכון תוצאות משחקים"   /> ,
-                                                    leagueID: 0});
-                returnedTable = <LeagueData data={this.state} />;
-                break;
+                            leagueID: 0});
+                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
+                break; 
+            case "scoreUpdate":
+                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
+                                                    message="תוצאות המחזור עודכנו"   /> ,
+                            leagueID: 0});
+                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
+                break; 
             default: {
                 this.setState({showCycle: eventKey});
                 returnedTable = <CyclesUpdate   data={this.state} cycleID={parseInt(eventKey)}
-                                                onSubmit={()=> this.setState({leagueID: 0})} 
-                                                onSelect={(eventKey)=>{this.switchTab(eventKey)}}
-                                                />
+                                            onSelect={(eventKey)=>{this.switchTab(eventKey)}}
+                />
             }
         }
         this.setState({table: returnedTable});

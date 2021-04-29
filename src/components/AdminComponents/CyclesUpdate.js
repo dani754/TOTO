@@ -109,7 +109,6 @@ export default class CyclesUpdate extends React.Component {
                                 table: renderUpdateTable,
                             })                            
                         }
-                        this.props.onSubmit();
                     }).catch(err => console.log("addGame", err))
             }
             
@@ -200,8 +199,9 @@ export default class CyclesUpdate extends React.Component {
                 })
                 .then((res) => res.json())
                 .then((data) => {
-                console.log("response updatescores", data);
-                this.props.onSubmit();
+                    console.log("response updatescores", data);
+                    this.props.onSelect("scoreUpdate");
+                    this.setState({cycleID: 0});
                 }).catch(err => console.log("updatescores", err))
         }
     }
