@@ -10,19 +10,19 @@ export default function CheckBetsAfterUpdate (props){
     const [show, setShow] = useState(props.show);
     let message = "ההימור עודכן בהצלחה";
     if (!props.complete){
-        message= "ההימור עודכן! שים לב, קיימים משחקים שטרם הימרת עליהם"
+        message= "ההימור עודכן! שים לב, קיימים משחקים שלא הימרת עליהם"
     }
     return (
         <Row>
             <Col xs={6}>
-                <Toast onClose={() => setShow(false)} show={show} delay={4000} autohide>
+                <Toast  onClose={() => {setShow(false); props.hide(); }} show={show} delay={5000} autohide>
                     <Toast.Header>
                         <img
                         src="holder.js/20x20?text=%20"
                         className="rounded mr-2"
                         alt=""
                         />
-                        <strong className="mr-auto">{message}</strong>
+                        <strong >{message}</strong>
                     </Toast.Header>
                 </Toast>
             </Col>

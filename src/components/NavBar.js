@@ -11,27 +11,27 @@ export default function NavBar (props) {
     return (
         <div >
             <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} >
-                <Nav.Item >
-                    <Nav.Link onClick={()=>{props.onClick()}} > התנתק </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="profile"> פרופיל </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="feed"> עדכונים </Nav.Link>
+                <Nav.Item className="secondNavItem" >
+                    <Nav.Link onClick={()=>{props.onClick()}} className="navLink" > התנתק </Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="secondNavItem">
-                    <Nav.Link eventKey={props.currentCycle}>מחזור {allCycles.length-allCycles.indexOf(parseInt(props.currentCycle))} </Nav.Link>
+                    <Nav.Link eventKey="profile" className="navLink" > פרופיל </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="secondNavItem">
+                    <Nav.Link eventKey="feed" className="navLink" > עדכונים </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="secondNavItem">
+                    <Nav.Link eventKey={props.currentCycle} className="navLink" >מחזור {allCycles.length-allCycles.indexOf(parseInt(props.currentCycle))} </Nav.Link>
                     <NavDropdown id="nav-dropdown" className="inlineDropmenu">
                     {allCycles.map((id,i)=>{
                         return(
-                            <NavDropdown.Item eventKey={id} key={i} >מחזור {allCycles.length-i}</NavDropdown.Item>
+                            <NavDropdown.Item  className="navLink"  eventKey={id} key={i} >מחזור {allCycles.length-i}</NavDropdown.Item>
                         );
                     })}
                     </NavDropdown>
                 </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link eventKey="league" > טבלת ליגה </Nav.Link>
+                <Nav.Item className="secondNavItem" >
+                    <Nav.Link eventKey="league" className="navLink" > טבלת ליגה </Nav.Link>
                 </Nav.Item>
             </Nav>
         </div>

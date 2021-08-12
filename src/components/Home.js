@@ -86,7 +86,7 @@ export default class Home extends React.Component {
                                         membersIDs = {this.state.membersIDs}
                                         userID = {this.state.userID}
                                         showBetUpdatingToast = {(complete) => this.setState({
-                                            toast: <CheckBetsAfterUpdate show={true} complete={complete} />
+                                            toast: <CheckBetsAfterUpdate show={true} complete={complete} hide={()=>{this.setState({toast: <p></p>})}} />
                                         })}
                 />
         }
