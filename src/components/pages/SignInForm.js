@@ -8,16 +8,16 @@ export default class SignIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            signinEmail: '',
-            signinPassword: '',
+            username: '',
+            password: '',
             badSubmition: false,
         };
     }
-    onEmailChange = (event) => {
-        this.setState({signinEmail: event.target.value});
+    onUsernameChange = (event) => {
+        this.setState({username: event.target.value});
     }
     onPasswordChange = (event) => {
-        this.setState({signinPassword: event.target.value});
+        this.setState({password: event.target.value});
     }
 
     onSubmitSignin = () => {
@@ -26,41 +26,31 @@ export default class SignIn extends React.Component {
                 method: "post",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    email: this.state.signinEmail,
-                    password: this.state.signinPassword
+                    username: this.state.username,
+                    password: this.state.password
                 })
             }).then((res) => res.json())
             .then( data => {
                 let user = parseInt(data);
                 console.log("signin", user);
-                this.props.onRegistration(user);
+                this.props.loginIn(user);
         }).catch(err => console.log('signin', err))
         }
     }
     
     render () {
-        let email="Email address";
-        let password="Password";
-        let submit = "Log In";
-        if (this.props.language === "hebrew"){
-            email="כתובת אימייל";
-            password="סיסמא";
-            submit = "התחברות";
-        }
         return (
             <div>
                 <Form className="signinForm">
                     <Form.Group>
-                        <Form.Label>{email}</Form.Label>
+                        <Form.Label>שם משתמש</Form.Label>
                         <p></p>
-                        <Form.Control type="text" placeholder="Enter email" autocomplete="username"
-                                        onChange={this.onEmailChange} />
+                        <Form.Control type="text" placeholder="שם משתמש" autoComplete="username"  onChange={this.onUsernameChange} />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
-                        <Form.Label>{password}</Form.Label>
+                        <Form.Label>סיסמא</Form.Label>
                         <p></p>
-                        <Form.Control type="password" placeholder="Password" autocomplete="current-password"
-                                        onChange={this.onPasswordChange}  />
+                        <Form.Control type="password" placeholder="סיסמא" autoComplete="current-password"  onChange={this.onPasswordChange}  />
                     </Form.Group>
                     <Form.Group>
                         <Button variant="primary" type="submit" 
@@ -68,7 +58,7 @@ export default class SignIn extends React.Component {
                                     e.preventDefault();
                                     this.onSubmitSignin();
                                 }}>
-                        {submit}
+                        התחברות
                         </Button>      
                     </Form.Group>           
                 </Form>  

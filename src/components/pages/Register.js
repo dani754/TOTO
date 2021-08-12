@@ -8,18 +8,18 @@ export default class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            newEmail: '',
-            newUserName: '',
+            newUsername: '',
+            newPublicName: '',
             newPassword: '',
             passwordAgain: '',
             badSubmition: false,
         };
     }
-    onEmailChange = (event) => {
-        this.setState({newEmail: event.target.value});
-    }
     onUsernameChange = (event) => {
-        this.setState({newUserName: event.target.value});
+        this.setState({newUsername: event.target.value});
+    }
+    onPublicNameChange = (event) => {
+        this.setState({newPublicName: event.target.value});
     }
     onPasswordChange = (event) => {
         this.setState({newPassword: event.target.value});
@@ -35,8 +35,8 @@ export default class Register extends React.Component {
                 method: "post",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    email: this.state.newEmail,
-                    username: this.state.newUserName,
+                    username: this.state.newUsername,
+                    publicName: this.state.newPublicName,
                     password: this.state.newPassword
                 })
             }).then((res) => res.json())
@@ -50,49 +50,33 @@ export default class Register extends React.Component {
     
 
     render (){
-        let email="Email address";
-        let username = "User Name";
-        let password="Password";
-        let rePassword="Please re-enter Password";
-        let submit = "Register";
-        if (this.props.language === "hebrew"){
-            email="כתובת אימייל";
-            username="שם משתמש (ציבורי)";
-            password="סיסמא";
-            rePassword="הזנת הסיסמא בשנית";
-            submit = "הרשמה";
-        }
+        
         return (
             <div>
                 <Form className="registerForm">
                     <Form.Group>
-                        <Form.Label>{email}</Form.Label>
-                        <Form.Control type="text" placeholder="Enter email" autocomplete="username"
-                                        onChange={this.onEmailChange}
-                        />
+                        <Form.Label>שם משתמש</Form.Label>
+                        <Form.Control type="text" placeholder="שם משתמש" onChange={this.onUsernameChange}    />
                     </Form.Group>
-                    <Form.Group controlId="formUsername">
-                        <Form.Label>{username}</Form.Label>
-                        <Form.Control type="text" placeholder="Enter a unique user name (public)" autocomplete="username"
-                                        onChange={this.onUsernameChange}
-                        />
+                    <Form.Group>
+                        <Form.Label>שם פרופיל (פומבי)</Form.Label>
+                        <Form.Control type="text" placeholder="שם משתמש פומבי"  onChange={this.onPublicNameChange}    />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
-                        <Form.Label>{password}</Form.Label>
-                        <Form.Control type="password" placeholder="Password" autocomplete="new-password"
-                                        onChange={this.onPasswordChange}
-                        />
+                        <Form.Label>סיסמא</Form.Label>
+                        <Form.Control type="password" placeholder="Password"  onChange={this.onPasswordChange}    />
                     </Form.Group>
                     <Form.Group controlId="formBasicPassword">
-                        <Form.Label>{rePassword}</Form.Label>
-                        <Form.Control type="password" placeholder="Password (again)" autocomplete="new-password"
-                                        onChange={this.onPasswordAgainChange}
-                        />
+                        <Form.Label>סיסמא (שוב)</Form.Label>
+                        <Form.Control type="password" placeholder="Password (again)"   onChange={this.onPasswordAgainChange}  />
                     </Form.Group>
                     <Form.Group>
                         <Button variant="primary" type="submit"
-                                            onClick= {()=> this.onSubmitRegister()}>
-                            {submit}
+                                onClick = {(e)=> {
+                                    e.preventDefault();
+                                    this.onSubmitRegister();
+                                }}>
+                            הירשם
                         </Button>
                     </Form.Group>
                 </Form>

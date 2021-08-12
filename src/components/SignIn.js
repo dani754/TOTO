@@ -36,10 +36,10 @@ export default class SignIn extends React.Component {
     }
 
     render () {
-        let Content = <SignInForm onRegistration={(user)=> this.setState({userID: user})}
+        let Content = <SignInForm loginIn={(user)=> this.setState({userID: user})}
                                   language = {this.state.language} />
         if (this.state.register){
-            Content = <Register   onRegistration = {(user)=> this.setState({userID: user})}
+            Content = <Register   onRegistration = {(user)=> this.props.validLogin(user)}
                                   language = {this.state.language} /> 
         }
         if (this.state.userID !== 0){
