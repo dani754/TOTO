@@ -10,7 +10,6 @@ export default class App extends React.Component  {
     super(props);
     this.state = {
       userID: 0,
-      language: 'english',
 
     }
   }
@@ -19,16 +18,14 @@ export default class App extends React.Component  {
     if (this.state.userID !== 0){
       return (
         <Home
-          user={this.state.userID} 
+          userID={this.state.userID} 
           logOut={()=>{this.setState({userID:0})}}
-          language = {this.state.language}
         />
       );
     } else {
       return (
         <SignIn
           validLogin ={(userid) => {this.setState({userID: userid})}}
-          changeLanguage = {(update)=>{this.setState({language: update})}}
         />
       );
     }

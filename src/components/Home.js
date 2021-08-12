@@ -3,7 +3,6 @@ import LeaguePage from './pages/LeaguePage';
 import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage';
 import Join from './pages/Join';
-import CreateLeague from './pages/CreateLeague';
 import HomeNavbar from './pages/HomeNavbar';
 import '../style.css';
 import '../importStyle.css';
@@ -12,20 +11,50 @@ export default class Home extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            navBar: <p>league</p>,
             userID: 0,
             userName: '',
-            defaultLeague: 0,
-            currentLeague: 0,
             isAdmin: 0,
             leagues: [],
-            navBar: 0,
-            language: "english",
+            image: '',
+            currentLeagueID: 0,
+            leagueName: '',
+            membersIDs: [],
+            membersNames: [],
+            cyclesIDs: [],
+            membersScores: [],
+            currentCycle: 0,
+            showCycle: 0,
+            cyclesDB: 0,
         }
     }
     
 
-    userData = (url) => {
-        fetch(url,
+    leagueData = () => {
+        fetch(`https://toto-server.herokuapp.com/home/league/${this.state.currentLeagueID}`,
+        {
+            method: "get",
+            dataType: "json",
+            headers: {'Content-Type': 'application/json'},
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            let result = data;
+            this.setState({
+                leagueName: result.leaguename,
+                cyclesIDs: result.cycles_ids,
+                membersIDs: result.members_ids,
+                membersNames: result.members_names,
+                membersScores: result.members_scores_league,
+                currentCycle: result.current_cycle_id,
+                showCycle:  result.current_cycle_id,
+            });
+            console.log("league data", result, this.state);
+        }).catch(err => console.log('league data', err))
+    }
+
+    userData = () => {
+        fetch(`https://toto-server.herokuapp.com/home/user/${this.props.user}`,
         {
             method: "get",
             dataType: "json",
@@ -37,83 +66,53 @@ export default class Home extends React.Component {
             this.setState({
                 userID: result.userid,
                 userName: result.username,
-                defaultLeague: result.defaultleague,
-                isAdmin: result.isadmin,
+                currentLeagueID: 1,
+                isAdmin: result.is_admin,
                 leagues: result.leagues,
-                language: result.main_language,
+                image: result.image,
             });
             console.log("home data",result, this.state);
-        }).catch(err => console.log('home', err))
+        }).then (()=> this.leagueData())
+        .catch(err => console.log('home', err))
     }
 
     switchTab = (eventKey) => {
         console.log("switchTab", eventKey)
         let returnedTable;
         switch(eventKey){
-            case "profilePage":
-                returnedTable = <ProfilePage  userID = {this.state.userID}/>
+            case "profile":
+                returnedTable = <p>profile</p>
                 break;
-            case "adminPage":
-                returnedTable = <AdminPage  leagueID = {this.state.isAdmin} />
+            case "league":
+                returnedTable = <p>league</p>
                 break;
-            case "create":
-                returnedTable = <CreateLeague userID = {this.state.userID}
-                                              userName= {this.state.userName}
-                                              newLeague = {()=>{this.setState({userID: 0, navBar: 0})}}
-                                              language = {this.state.language}    />;
+            case "news":
+                returnedTable = <p>news</p>
                 break;
-            case "join":
-                returnedTable = <Join  userID={this.state.userID} 
-                                        username={this.state.userName}
-                                        onJoining = {(LeagueID)=>{this.switchTab(LeagueID)}}
-                                        isAdmin = {this.state.isAdmin}
-                                        createLeague = {()=>{this.switchTab("create")}}  />
-                break;
-            default:{
-                    this.setState({currentLeague: parseInt(eventKey)});
-                    returnedTable =  <LeaguePage userName = {this.state.userName} 
-                                                userID = {this.state.userID}
-                                                leagueID = {parseInt(eventKey)}
-                                                leagues={this.state.leagues} />
-            }
+            default: 
+                this.setState({showCycle: eventKey});
+                returnedTable =  <p>cycle {this.state.showCycle}</p>
         }
         this.setState({navBar: returnedTable});
     }
 
     render (){
-        let url = `https://toto-server.herokuapp.com/home/user/${this.props.user}`;
-        if (this.props.user !== 0){
-            if (this.state.userID === 0) {
-                this.userData(url);
-            }
+        if (this.props.userID !== 0 && this.state.userID === 0){
+                this.userData();
         }
-        if (this.state.defaultLeague === 0 && this.state.userID !== 0){
+        if (this.state.isAdmin !== 0){
             return (
-                <Join   userID={this.state.userID} 
-                        username={this.state.userName}
-                        onJoining = {()=>{this.userData(url)}}
-                        isAdmin = {this.state.isAdmin}
-                        createLeague = {()=> {   
-                            this.setState({defaultLeague: -1})
-                            this.switchTab("create") }}  />
+                <AdminPage leagueID={this.state.currentLeagueID}  />
             );
         }
         else {
-            let Content = this.state.navBar;
-            if (Content === 0 && this.state.userID !== 0){
-                if (this.state.currentLeague === 0)
-                    this.switchTab(this.state.defaultLeague);
-                else 
-                    this.switchTab(this.state.currentLeague);
-            }
-            return (
+            return(
                 <div>
                     <HomeNavbar onClick={()=>{this.props.logOut()}}
                                 onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
-                                isAdmin={this.state.isAdmin}
-                                leagues={this.state.leagues} 
-                                leagueID={this.state.currentLeague} />
-                    {Content}
+                                cycles={this.state.cyclesIDs}
+                                currentCycle={this.state.showCycle} />
+                    {this.state.navBar}
                 </div>
             );
         }

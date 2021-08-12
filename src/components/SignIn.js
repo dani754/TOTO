@@ -1,7 +1,5 @@
 import React from 'react';
-import SignInForm from './pages/SignInForm';
-import Register from './pages/Register';
-import Nav from 'react-bootstrap/Nav';
+import {Button , Form} from 'react-bootstrap';
 import '../style.css';
 import '../importStyle.css';
 
@@ -10,74 +8,61 @@ export default class SignIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            register: false,
-            language: this.props.language,
-            userID: 0,
+            username: '',
+            password: '',
+            badSubmition: false,
         };
     }
-
-    eventsHandler = (eventKey) => {
-        switch(eventKey){
-            case "english":
-            case "hebrew":
-                this.props.changeLanguage(eventKey);
-                this.setState({language: eventKey});
-                break;
-            case "register":
-                this.setState({register: true});
-                break;
-            case "login":
-            case "about":
-                this.setState({register: false});
-                break;
-            default:
-                this.setState({register: false});
-        }
+    onUsernameChange = (event) => {
+        this.setState({username: event.target.value});
+    }
+    onPasswordChange = (event) => {
+        this.setState({password: event.target.value});
     }
 
+    onSubmitSignin = () => {
+        if (this.state.signinEmail !== ''){
+            return fetch('https://toto-server.herokuapp.com/signin' , {
+                method: "post",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password
+                })
+            }).then((res) => res.json())
+            .then( data => {
+                let user = parseInt(data);
+                console.log("signin", user);
+                this.props.validLogin(user);
+        }).catch(err => console.log('signin', err))
+        }
+    }
+    
     render () {
-        let Content = <SignInForm loginIn={(user)=> this.setState({userID: user})}
-                                  language = {this.state.language} />
-        if (this.state.register){
-            Content = <Register   onRegistration = {(user)=> this.props.validLogin(user)}
-                                  language = {this.state.language} /> 
-        }
-        if (this.state.userID !== 0){
-            this.props.validLogin(parseInt(this.state.userID));
-        }
-        let about = 'About';
-        let register = 'Register';
-        let login = 'Log In';
-        let pageDesign = "signinPage English"
-        if (this.state.language === 'hebrew'){
-            about = 'אודות';
-            register = 'הרשמה';
-            login = 'כניסה לחשבון';
-            pageDesign = "signinPage Hebrew"
-        }
         return (
-            <div className={pageDesign} >
-                <Nav onSelect={(eventKey) => this.eventsHandler(eventKey)} >
-                    <Nav.Item>
-                        <Nav.Link eventKey="english" >English</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="hebrew"  >עברית</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="about"  >{about}</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="register" >{register} </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="login" >{login}</Nav.Link>
-                    </Nav.Item>
-                </Nav>
-                <div></div>
-                {Content}
-                <div></div>
+            <div>
+                <Form className="signinForm">
+                    <Form.Group>
+                        <Form.Label>שם משתמש</Form.Label>
+                        <p></p>
+                        <Form.Control type="text" placeholder="שם משתמש" autoComplete="username"  onChange={this.onUsernameChange} />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>סיסמא</Form.Label>
+                        <p></p>
+                        <Form.Control type="password" placeholder="סיסמא" autoComplete="current-password"  onChange={this.onPasswordChange}  />
+                    </Form.Group>
+                    <Form.Group>
+                        <Button variant="primary" type="submit" 
+                                onClick = {(e)=> {
+                                    e.preventDefault();
+                                    this.onSubmitSignin();
+                                }}>
+                        התחברות
+                        </Button>      
+                    </Form.Group>     
+                </Form>  
             </div>
-        );   
+        );    
     }
 }

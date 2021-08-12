@@ -14,10 +14,9 @@ export default class AdminPage extends React.Component {
             leagueName: '',
             cyclesIDs: [],
             membersIDs: [],
-            names_array: [],
-            scores_array: [],
-            current_cycle: 0,
-            scoring_method: 1,
+            membersNames: [],
+            membersScores: [],
+            currentCycle: 0,
             cyclesDB: 0,
             showCycle: 0,
             table: 0,
@@ -26,8 +25,8 @@ export default class AdminPage extends React.Component {
         }
     }
 
-    fullLeagueData = (url) => {
-        fetch(url,
+    fullLeagueData = () => {
+        fetch(`https://toto-server.herokuapp.com/home/leagueadmin/${this.props.leagueID}`,
         {
             method: "get",
             dataType: "json",
@@ -39,12 +38,11 @@ export default class AdminPage extends React.Component {
             this.setState({
                 leagueID: result.leagueid,
                 leagueName: result.leaguename,
-                cyclesIDs: result.cyclesids,
-                membersIDs: result.membersids,
-                names_array: result.names_array,
-                scores_array: result.scores_array,
-                current_cycle: result.current_cycle,
-                scoring_method: result.scoring_method,
+                cyclesIDs: result.cycles_ids,
+                membersIDs: result.members_ids,
+                membersNames: result.members_names,
+                membersScores: result.members_scores_league,
+                currentCycle: result.current_cycle_id,
                 cyclesDB: result.cyclesDB,
                 refresh: true,
             });
@@ -121,11 +119,8 @@ export default class AdminPage extends React.Component {
 
 
     render (){
-        if (this.props.leagueID !== 0){
-            let url = `https://toto-server.herokuapp.com/home/leagueadmin/${this.props.leagueID}`;
-            if (this.state.leagueID === 0){
-                this.fullLeagueData(url);
-            }
+        if (this.props.leagueID !== 0 && this.state.leagueID === 0){
+                this.fullLeagueData();
         }
         let Content = this.state.table;
         if (Content === 0 && this.state.leagueID !== 0){

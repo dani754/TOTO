@@ -5,41 +5,33 @@ import '../../importStyle.css';
 
 export default function HomeNavbar (props) {
     
-    let adminTab =  <Nav.Item >
-                        <Nav.Link eventKey="adminPage"> דף ניהול ליגה </Nav.Link>
-                    </Nav.Item>;
-    let createLeague = <></>;
-    if (props.isAdmin === 0){
-        adminTab = <Nav.Item >
-        <Nav.Link disable>  </Nav.Link>
-                    </Nav.Item>;;
-        createLeague = <NavDropdown.Item eventKey="create" > פתח ליגה חדשה כאדמין </NavDropdown.Item>
-    }
-    
+    let allCycles = props.cycles;
+    allCycles.sort(function(a, b){return b-a});
+
     return (
-        
         <div >
             <Nav onSelect={(eventKey)=>props.onSelect(eventKey)} >
                 <Nav.Item >
-                    <Nav.Link eventKey={props.leagueID} > עמוד בית </Nav.Link>
+                    <Nav.Link onClick={()=>{props.onClick()}} > התנתק </Nav.Link>
                 </Nav.Item>
-                <NavDropdown title="החלף ליגה" id="nav-dropdown">
-                    {props.leagues.map((id,i)=>{
-                        return(
-                            <NavDropdown.Item eventKey={id} key={i} >ליגה {id}</NavDropdown.Item>
-                        );
-                        })
-                    }
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item eventKey="join" > הצטרף לליגה קיימת</NavDropdown.Item>
-                    {createLeague}
-                </NavDropdown>
                 <Nav.Item>
-                    <Nav.Link eventKey="profilePage"> פרופיל (בהכנה) </Nav.Link>
+                    <Nav.Link eventKey="profile"> פרופיל </Nav.Link>
                 </Nav.Item>
-                {adminTab}
-                <Nav.Item >
-                    <Nav.Link onClick={()=>{props.onClick()}} >התנתק  </Nav.Link>
+                <Nav.Item>
+                    <Nav.Link eventKey="news"> עדכונים </Nav.Link>
+                </Nav.Item>
+                <Nav.Item className="secondNavItem">
+                    <Nav.Link eventKey={props.currentCycle}>מחזור {allCycles.length-allCycles.indexOf(parseInt(props.currentCycle))} </Nav.Link>
+                    <NavDropdown id="nav-dropdown" className="inlineDropmenu">
+                    {allCycles.map((id,i)=>{
+                        return(
+                            <NavDropdown.Item eventKey={id} key={i} >מחזור {allCycles.length-i}</NavDropdown.Item>
+                        );
+                    })}
+                    </NavDropdown>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="league" > טבלת ליגה </Nav.Link>
                 </Nav.Item>
             </Nav>
         </div>
