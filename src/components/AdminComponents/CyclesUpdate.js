@@ -91,9 +91,8 @@ export default class CyclesUpdate extends React.Component {
                             hometeam: this.state.hometeam[i],
                             awayteam: this.state.awayteam[i],
                             cycleID: this.state.cycleID,
-                            leagueID: this.props.data.leagueID,
                             leagueSize: this.props.data.membersIDs.length,
-                            firstGame: (this.state.table[0].hometeam === 'await'),
+                            isFirst: (this.state.table[0].hometeam === 'await'),
                         })
                     })
                     .then((res) => res.json())
