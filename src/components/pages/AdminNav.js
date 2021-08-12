@@ -8,8 +8,7 @@ export default function AdminNav(props){
     let allCycles = props.cycles;
     allCycles.sort(function(a, b){return b-a});
 
-    let showenCycle = props.cycleID;
-    if (showenCycle !== 0){
+    if (props.cycleID !== 0){
         let cycleCostumizeActions = <><Nav.Item  className="secondNavItem">
                             <Nav.Link  eventKey="lock" > נעילת מחזור </Nav.Link>
                         </Nav.Item></>
