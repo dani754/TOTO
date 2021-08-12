@@ -2,7 +2,6 @@ import React from 'react';
 import LeaguePage from './pages/LeaguePage';
 import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage';
-import Join from './pages/Join';
 import HomeNavbar from './pages/HomeNavbar';
 import '../style.css';
 import '../importStyle.css';
@@ -15,7 +14,6 @@ export default class Home extends React.Component {
             userID: 0,
             userName: '',
             isAdmin: 0,
-            leagues: [],
             image: '',
             currentLeagueID: 0,
             leagueName: '',
@@ -30,31 +28,8 @@ export default class Home extends React.Component {
     }
     
 
-    leagueData = () => {
-        fetch(`https://toto-server.herokuapp.com/home/league/${this.state.currentLeagueID}`,
-        {
-            method: "get",
-            dataType: "json",
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            let result = data;
-            this.setState({
-                leagueName: result.leaguename,
-                cyclesIDs: result.cycles_ids,
-                membersIDs: result.members_ids,
-                membersNames: result.members_names,
-                membersScores: result.members_scores_league,
-                currentCycle: result.current_cycle_id,
-                showCycle:  result.current_cycle_id,
-            });
-            console.log("league data", result, this.state);
-        }).catch(err => console.log('league data', err))
-    }
-
-    userData = () => {
-        fetch(`https://toto-server.herokuapp.com/home/user/${this.props.user}`,
+    getUserData = () => {
+        fetch(`https://toto-server.herokuapp.com/home/user/${this.props.userID}`,
         {
             method: "get",
             dataType: "json",
@@ -66,14 +41,19 @@ export default class Home extends React.Component {
             this.setState({
                 userID: result.userid,
                 userName: result.username,
-                currentLeagueID: 1,
                 isAdmin: result.is_admin,
-                leagues: result.leagues,
                 image: result.image,
+                currentLeagueID: result.leagueData.leagueid,
+                leagueName: result.leagueData.leaguename,
+                membersIDs: result.leagueData.members_ids,
+                membersNames: result.leagueData.members_names,
+                cyclesIDs: result.leagueData.cycles_ids,
+                membersScores: result.leagueData.members_scores_league,
+                currentCycle: result.leagueData.current_cycle_id,
+                showCycle: result.leagueData.current_cycle_id,           
             });
             console.log("home data",result, this.state);
-        }).then (()=> this.leagueData())
-        .catch(err => console.log('home', err))
+        }).catch(err => console.log('home', err));
     }
 
     switchTab = (eventKey) => {
@@ -98,7 +78,7 @@ export default class Home extends React.Component {
 
     render (){
         if (this.props.userID !== 0 && this.state.userID === 0){
-                this.userData();
+                this.getUserData();
         }
         if (this.state.isAdmin !== 0){
             return (
