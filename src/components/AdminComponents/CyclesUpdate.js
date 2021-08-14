@@ -14,9 +14,9 @@ export default class CyclesUpdate extends React.Component {
             cycleID: 0,
             gamesIDs: [],
             cycleOrderInLeague: 0,
-            isLocked: true,
-            isClosed: true,
-            membersScores: [],
+            isLocked: false,
+            isClosed: false,
+            lockingTime: 0,
             gamesDB: [],
             table: [{gameid: 1, hometeam: 'await', awayteam: 'await', score: 'await', cycleid: 0}],
             gamesToAdd: 0,
@@ -25,43 +25,33 @@ export default class CyclesUpdate extends React.Component {
         }
     }
 
-    cycleData = (url) => {
-        fetch(url,
-            {
-                method: "get",
-                dataType: 'json',
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                let result = data;
-                this.setState({
-                    cycleID: result.cycleid,
-                    gamesIDs: result.gamesids,
-                    cycleOrderInLeague: result.cycleorderinleague,
-                    isLocked: result.islocked,
-                    isClosed: result.isclosed,
-                    membersScores: result.membersscores,
-                    gamesDB: result.gamesDB,
-                });
-                console.log("state admin cycle" , this.state)
-            }).catch(err => console.log(err));
+    updateState = () => {
+        this.setState({
+            cycleID: this.props.cycleData.cycleid,
+            gamesIDs: this.props.cycleData.games_ids,
+            cycleOrderInLeague: this.props.cycleData.order_in_league,
+            isLocked: this.props.cycleData.lock_for_bets,
+            isClosed: this.props.cycleData.lock_for_updates,
+            lockingTime: this.props.cycleData.lock_bets_time,
+            gamesDB: this.props.gamesDB,
+        })
     }
 
     setTable = () => {
-        let newTable = [{gameid: 1, hometeam: 'await', awayteam: 'await', score: 'await', cycleid: this.props.cycleID}];
+        let newTable = [{gameid: 1, hometeam: 'await', awayteam: 'await', score: 'await', cycleid: this.state.cycleID}];
         if (Array.isArray(this.state.gamesDB) && this.state.gamesDB.length > 0){
             newTable = this.state.gamesDB.map((game)=>{
                 let score = game.score;
                 if (this.state.isClosed && score === 3)
                     score = 'x';
                 return {
-                    hometeam: game.hometeam,
-                    awayteam: game.awayteam,
+                    hometeam: game.home_team,
+                    awayteam: game.away_team,
                     score: score,
                     newScore: game.score,
                     cycleid: game.cycleid,
                     gameID: game.gameid,
-                    isbonus: game.isbonus,
+                    isbonus: game.is_bonus,
                 };
             });
         }
@@ -179,7 +169,7 @@ export default class CyclesUpdate extends React.Component {
 
     handleChange = (e, i) => {
         let newCycleScore = this.state.table;
-        newCycleScore[i].newScore = e.target.value;
+        newCycleScore[i].newScore = parseInt(e.target.value);
         console.log("newCycleScore", newCycleScore);
         this.setState({table: newCycleScore});
     }
@@ -207,10 +197,8 @@ export default class CyclesUpdate extends React.Component {
 
 
     render (){
-        console.log("cycle update state", this.state);
-        let url = `https://toto-server.herokuapp.com/home/cycle/${this.props.cycleID}`;
-        if (parseInt(this.state.cycleID) !== parseInt(this.props.cycleID)){
-            this.cycleData(url);
+        if (this.state.cycleID !== this.props.cycleData.cycleid){
+            this.updateState();
         }
         let tableArray = this.state.table;
         if (tableArray[0].cycleid !== this.state.cycleID && this.state.cycleID !== 0){

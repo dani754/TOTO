@@ -19,14 +19,15 @@ export default class AdminPage extends React.Component {
             currentCycle: 0,
             cyclesDB: 0,
             showCycle: 0,
+            showCycleData: {cycleid: 0},
+            gamesDB: [],
             table: 0,
             toast: <p></p>,
-            refresh: false,
         }
     }
 
     fullLeagueData = () => {
-        fetch(`https://toto-server.herokuapp.com/home/leagueadmin/${this.props.leagueID}`,
+        fetch(`https://toto-server.herokuapp.com/leagueadmin/${this.props.leagueID}`,
         {
             method: "get",
             dataType: "json",
@@ -35,6 +36,7 @@ export default class AdminPage extends React.Component {
         .then((res) => res.json())
         .then((data) => {
             let result = data;
+            let cycleData = result.cyclesDB.find( cycle => cycle.cycleid === parseInt(result.current_cycle_id));
             this.setState({
                 leagueID: result.leagueid,
                 leagueName: result.leaguename,
@@ -45,9 +47,26 @@ export default class AdminPage extends React.Component {
                 currentCycle: result.current_cycle_id,
                 showCycle: result.current_cycle_id,
                 cyclesDB: result.cyclesDB,
-                refresh: true,
+                showCycleData: cycleData,
+                gamesDB: result.gamesDB,
             });
             console.log("league data in admin page", result, this.state);
+        }).catch(err => console.log('AdminPage', err))
+    }
+
+    getGamesDB = () => {
+        fetch(`https://toto-server.herokuapp.com/gamesDB/${this.state.showCycle}`,
+        {
+            method: "get",
+            dataType: "json",
+            headers: {'Content-Type': 'application/json'},
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            this.setState({
+                gamesDB: data,
+            });
+            console.log("gamesDB in admin page", data);
         }).catch(err => console.log('AdminPage', err))
     }
 
@@ -55,7 +74,6 @@ export default class AdminPage extends React.Component {
         let returnedTable; 
         switch(eventKey){
             case "LeagueData":
-                this.setState({showCycle: 0});
                 returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
                 break;
             case "addCycle":
@@ -110,8 +128,9 @@ export default class AdminPage extends React.Component {
                 break; 
             default: {
                 this.setState({showCycle: eventKey});
-                returnedTable = <CyclesUpdate   data={this.state} cycleID={parseInt(eventKey)}
-                                            onSelect={(eventKey)=>{this.switchTab(eventKey)}}
+                returnedTable = <CyclesUpdate   cycleData={this.state.showCycleData}
+                                                gamesDB={this.state.gamesDB}
+                                                onSelect={(eventKey)=>{this.switchTab(eventKey)}}
                 />
             }
         }
@@ -122,22 +141,21 @@ export default class AdminPage extends React.Component {
     render (){
         if (this.props.leagueID !== 0 && this.state.leagueID === 0){
                 this.fullLeagueData();
-        }
-        if (this.state.table === 0 && this.state.leagueID !== 0){
+        };
+        if (this.state.leagueID !== 0 && this.state.gamesDB !== [] && this.state.showCycle !== this.state.gamesDB[0].cycleid){
+            this.getGamesDB();
+        };
+        if (this.state.leagueID !==0 && this.state.table === 0){
             this.switchTab(this.state.showCycle);
         };
-        let cyclesArray = this.state.cyclesDB;
-        let cycleData = 0;
-        if (Array.isArray(cyclesArray) && this.state.showCycle > 0){
-            cycleData = cyclesArray.find( cycle => cycle.cycleid === parseInt(this.state.showCycle))
-        }
+        
         return (
             <div>
                 {this.state.toast}
                 <AdminNav   onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
                             cycles={this.state.cyclesIDs} 
                             cycleID = {this.state.showCycle}
-                            cycleData = {cycleData}
+                            cycleData = {this.state.showCycleData}
                              />
                 {this.state.table}
             </div>

@@ -112,6 +112,7 @@ export default class Home extends React.Component {
                             cycles={this.state.cyclesIDs}
                             currentCycle={this.state.showCycle} />
                     {this.state.toast}
+                    {this.state.image}
                     {this.state.navBar}
                 </div>
             );
