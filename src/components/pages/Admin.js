@@ -1,8 +1,9 @@
 import React from 'react';
 import AdminNav from './AdminNav';
-import CyclesUpdate from '../AdminComponents/CyclesUpdate';
-import LeagueData from '../AdminComponents/LeagueData';
-import * as Actions from '../AdminComponents/CycleActions';
+import AdminCycle from './AdminCycle';
+import AdminModal from './AdminModal';
+import AdminLeaguePage from './AdminLeaguePage';
+import * as Actions from './AdminActions';
 import ToastMessage from '../pop-ups/ToastMessage';
 import '../../importStyle.css';
 
@@ -21,8 +22,9 @@ export default class AdminPage extends React.Component {
             showCycle: 0,
             showCycleData: {cycleid: 0},
             gamesDB: [],
-            table: 0,
-            toast: <p></p>,
+            leaguePage: false,
+            inputType: "lines",
+            updateGames: false,
         }
     }
 
@@ -54,7 +56,7 @@ export default class AdminPage extends React.Component {
         }).catch(err => console.log('AdminPage', err))
     }
 
-    getGamesDB = () => {
+    getShowCycleData = () => {
         fetch(`https://toto-server.herokuapp.com/gamesDB/${this.state.showCycle}`,
         {
             method: "get",
@@ -63,78 +65,73 @@ export default class AdminPage extends React.Component {
         })
         .then((res) => res.json())
         .then((data) => {
+            let cycleData = this.state.cyclesDB.find( cycle => cycle.cycleid === parseInt(this.state.showCycle));
             this.setState({
                 gamesDB: data,
+                showCycleData: cycleData
             });
             console.log("gamesDB in admin page", data);
         }).catch(err => console.log('AdminPage', err))
     }
 
     switchTab = (eventKey) => {
-        let returnedTable; 
         switch(eventKey){
+            case "switchInputType":
+                if (this.state.inputType === "lines"){
+                    this.setState({inputType: "text"})
+                } else {
+                    this.setState({inputType: "lines"})
+                }
+                break;
             case "LeagueData":
-                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
+                this.setState({leaguePage: true});
                 break;
             case "addCycle":
-                Actions.addCycle (this.props.leagueID);
-                this.setState({toast: <ToastMessage pop={true} onClose= {()=>{this.setState({toast: 0})}}
-                                                    message="נוסף מחזור חדש לליגה!"   /> ,
-                            leagueID: 0});
-                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-                break; 
-            case "close":
-                Actions.closeCycle (this.state.showCycle);
-                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                                                    message="המחזור סגור - לא ניתן לעדכן יותר תוצאות"   /> ,
-                            leagueID: 0});
-                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-                break; 
-            case "lock":
-                let verified = Actions.verifyBets
-                if (verified){
-                    Actions.lockCycle (this.state.showCycle);
-                    this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                                                        message="המחזור נעול - לא ניתן להמר"   /> ,
-                                leagueID: 0});
-                    returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-                } else {
-                    this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                    message="קיימים שחקנים שטרם שלחו הימור - לא ניתן לנעול את המחזור"   /> ,
-                    leagueID: 0});
-                    returnedTable = <CyclesUpdate   data={this.state} cycleID={this.state.showCycle}
-                                                onSelect={(eventKey)=>{this.switchTab(eventKey)}} />;
-                }
-                break; 
-            case "unlock":
-                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                                                    message="נעילת המחזור בוטלה"   /> ,
-                            leagueID: 0});
-                Actions.unlockCycle (this.state.showCycle);
-                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-                break; 
-            case "unclose":
-                Actions.uncloseCycle (this.state.showCycle);
-                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                                                    message="המחזור נפתח לעדכון תוצאות משחקים"   /> ,
-                            leagueID: 0});
-                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-                break; 
-            case "scoreUpdate":
-                this.setState({toast: <ToastMessage pop={true}  onClose= {()=>{this.setState({toast: 0})}}
-                                                    message="תוצאות המחזור עודכנו"   /> ,
-                            leagueID: 0});
-                returnedTable = <LeagueData data={this.state} onDataChange={()=>this.setState({leagueID:0})} />;
-                break; 
-            default: {
+                let newCycleID = Actions.addCycle (this.state.leagueID);
+                let newCyclesIDsArray = this.state.cyclesIDs;
+                newCyclesIDsArray.push(newCycleID);
+                this.setState({showCycle: newCycleID,
+                                gamesDB: [],
+                                showCycleData: {cycleid: newCycleID},
+                                cyclesIDs: newCyclesIDsArray,
+                });
+                break;
+            case "setLockBetsTime":
+                break;
+            case "lockBets":
+                Actions.lockBets(this.state.showCycle);
+                let lockBetsState = this.state.showCycleData;
+                lockBetsState.lock_for_bets = true;
+                this.setState({showCycleData: lockBetsState});
+                break;
+            case "checkForMissingBets":
+                break;
+            case "unlockBets":
+                Actions.unlockBets(this.state.showCycle);
+                let unlockBetsState = this.state.showCycleData;
+                unlockBetsState.lock_for_bets = false;
+                this.setState({showCycleData: unlockBetsState});
+                break;
+            case "setCurrentCycle":
+                let cycle = this.state.showCycle;
+                Actions.setCurrentCycle(cycle, this.state.leagueID);
+                this.setState({currentCycle: cycle});
+                break;
+            case "lockUpdates":
+                Actions.lockUpdates(this.state.showCycle);
+                let lockUpdatesState = this.state.showCycleData;
+                lockUpdatesState.lock_for_updates = true;
+                this.setState({showCycleData: lockUpdatesState});
+                break;
+            case "ulockUpdates":
+                Actions.unlockUpdates(this.state.showCycle);
+                let unlockUpdatesState = this.state.showCycleData;
+                unlockUpdatesState.lock_for_updates = false;
+                this.setState({showCycleData: unlockUpdatesState});
+                break;
+            default:
                 this.setState({showCycle: eventKey});
-                returnedTable = <CyclesUpdate   cycleData={this.state.showCycleData}
-                                                gamesDB={this.state.gamesDB}
-                                                onSelect={(eventKey)=>{this.switchTab(eventKey)}}
-                />
-            }
         }
-        this.setState({table: returnedTable});
     }
 
 
@@ -142,23 +139,34 @@ export default class AdminPage extends React.Component {
         if (this.props.leagueID !== 0 && this.state.leagueID === 0){
                 this.fullLeagueData();
         };
-        if (this.state.leagueID !== 0 && this.state.gamesDB !== [] && this.state.showCycle !== this.state.gamesDB[0].cycleid){
-            this.getGamesDB();
-        };
-        if (this.state.leagueID !==0 && this.state.table === 0){
-            this.switchTab(this.state.showCycle);
+        if (this.state.leagueID !== 0 && ((this.state.gamesDB !== [] && this.state.showCycle !== this.state.gamesDB[0].cycleid) || this.state.showCycle !== this.state.showCycleData.cycleid)){
+            this.getShowCycleData();
         };
         
-        return (
-            <div>
-                {this.state.toast}
-                <AdminNav   onSelect={(eventKey)=>{this.switchTab(eventKey)}} 
-                            cycles={this.state.cyclesIDs} 
-                            cycleID = {this.state.showCycle}
-                            cycleData = {this.state.showCycleData}
-                             />
-                {this.state.table}
-            </div>
-        );
+        if (this.state.leaguePage) {
+            return (
+                <AdminLeaguePage />
+            )
+        }
+        else {
+            return(
+                <div>
+                    <AdminNav   onSelect = { (eventKey) => {this.switchTab(eventKey)}}
+                                cycles={this.state.cyclesIDs} 
+                                cycleID = {this.state.showCycle}
+                                cycleData = {this.state.showCycleData}
+                                gamesDB = {this.state.gamesDB}
+                                inputType = {this.state.inputType}
+                    />
+                    <AdminModal />
+                    <AdminCycle cycleID = {this.state.showCycle}
+                                cycleData = {this.state.showCycleData}
+                                gamesDB = {this.state.gamesDB}
+                                inputType = {this.state.inputType}
+                    />
+                </div>
+            )
+        }
+        
     }
 }
