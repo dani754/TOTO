@@ -16,7 +16,7 @@ export function addCycle (leagueID){
 }
 
 export function closeCycle (cycleID){
-    return fetch(`https://toto-server.herokuapp.com/closecycle/${cycleID}`,
+    return fetch(`https://toto-server.herokuapp.com/lock-for-updates/${cycleID}`,
     {
         method: "get",
         dataType: "json",
@@ -30,7 +30,7 @@ export function closeCycle (cycleID){
 }
 
 export function lockCycle (cycleID){
-    return fetch(`https://toto-server.herokuapp.com/lockcycle/${cycleID}`,
+    return fetch(`https://toto-server.herokuapp.com/lock-for-bets/${cycleID}`,
     {
         method: "get",
         dataType: "json",
@@ -59,7 +59,7 @@ export function verifyBets (cycleID){
 }
 
 export function uncloseCycle (cycleID){
-    let url = `https://toto-server.herokuapp.com/unclosecycle/${cycleID}`;
+    let url = `https://toto-server.herokuapp.com/unlock-for-updates/${cycleID}`;
     return fetch(url,
     {
             method: "get",
@@ -73,7 +73,7 @@ export function uncloseCycle (cycleID){
 }
 
 export function unlockCycle (cycleID) {
-    let url = `https://toto-server.herokuapp.com/unlockcycle/${cycleID}`;
+    let url = `https://toto-server.herokuapp.com/unlock-for-bets/${cycleID}`;
     return fetch(url,
     {
             method: "get",
