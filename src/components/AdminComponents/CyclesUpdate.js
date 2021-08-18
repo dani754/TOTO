@@ -339,11 +339,11 @@ export default class CyclesUpdate extends React.Component {
                                                 + </Button> </td>
                                             <td><Form.Group>
                                                 <Form.Control type="text" placeholder="קבוצת חוץ" onChange={(e) => {this.handleGamesInput(e,i,2)}}
-                                                                                        value={this.state.awayteam[i]} />
+                                                                                        value={this.state.awayteam[i]} autoComplete  />
                                             </Form.Group></td>
                                             <td><Form.Group>
                                                 <Form.Control type="text" placeholder="קבוצת בית" onChange={(e) => {this.handleGamesInput(e,i,1)}}
-                                                                                        value={this.state.hometeam[i]} />
+                                                                                        value={this.state.hometeam[i]} autoComplete />
                                             </Form.Group></td>
                                             <td>*</td>
                                         </tr>

@@ -43,7 +43,7 @@ export default class Register extends React.Component {
             .then( data => {
                 let user = parseInt(data);
                 console.log("register", user);
-                this.props.onRegistration(user);
+                this.props.validLogin(user);
             }).catch(err => console.log('register', err))
         }
     }

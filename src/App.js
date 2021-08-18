@@ -1,6 +1,7 @@
 import React from 'react';
 import Home from './components/Home';
 import SignIn from './components/SignIn';
+import Register from './components/pages/Register';
 import './style.css';
 import './importStyle.css';
 
