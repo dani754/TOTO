@@ -5,6 +5,7 @@ import AdminModal from './AdminModal';
 import AdminLeaguePage from './AdminLeaguePage';
 import * as Actions from './AdminActions';
 import ToastMessage from '../pop-ups/ToastMessage';
+import '../../style.css';
 import '../../importStyle.css';
 
 export default class AdminPage extends React.Component {
@@ -20,7 +21,7 @@ export default class AdminPage extends React.Component {
             currentCycle: 0,
             cyclesDB: 0,
             showCycle: 0,
-            showCycleData: {cycleid: 0},
+            showCycleData: {cycleid: 0,},
             gamesDB: [],
             leaguePage: false,
             inputType: "lines",
@@ -38,7 +39,8 @@ export default class AdminPage extends React.Component {
         .then((res) => res.json())
         .then((data) => {
             let result = data;
-            let cycleData = result.cyclesDB.find( cycle => cycle.cycleid === parseInt(result.current_cycle_id));
+            let cyclesDB = result.cyclesDB;
+            let cycleData = cyclesDB.find( cycle => cycle.cycleid === result.current_cycle_id);
             this.setState({
                 leagueID: result.leagueid,
                 leagueName: result.leaguename,
@@ -78,9 +80,9 @@ export default class AdminPage extends React.Component {
         switch(eventKey){
             case "switchInputType":
                 if (this.state.inputType === "lines"){
-                    this.setState({inputType: "text"})
+                    this.setState({inputType: "text"});
                 } else {
-                    this.setState({inputType: "lines"})
+                    this.setState({inputType: "lines"});
                 }
                 break;
             case "LeagueData":
@@ -139,14 +141,14 @@ export default class AdminPage extends React.Component {
         if (this.props.leagueID !== 0 && this.state.leagueID === 0){
                 this.fullLeagueData();
         };
-        if (this.state.leagueID !== 0 && ((this.state.gamesDB !== [] && this.state.showCycle !== this.state.gamesDB[0].cycleid) || this.state.showCycle !== this.state.showCycleData.cycleid)){
+        if (this.state.leagueID !== 0 && ((Array.isArray(this.state.gamesDB) && this.state.gamesDB.length !== 0 && this.state.showCycle !== this.state.gamesDB[0].cycleid)  || (this.state.showCycle !== this.state.showCycleData.cycleid))){
             this.getShowCycleData();
         };
-        
+
         if (this.state.leaguePage) {
             return (
                 <AdminLeaguePage />
-            )
+            );
         }
         else {
             return(
@@ -165,8 +167,7 @@ export default class AdminPage extends React.Component {
                                 inputType = {this.state.inputType}
                     />
                 </div>
-            )
+            );
         }
-        
     }
 }
