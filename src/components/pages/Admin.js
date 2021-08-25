@@ -141,13 +141,21 @@ export default class AdminPage extends React.Component {
         if (this.props.leagueID !== 0 && this.state.leagueID === 0){
                 this.fullLeagueData();
         };
-        if (this.state.leagueID !== 0 && ((Array.isArray(this.state.gamesDB) && this.state.gamesDB.length !== 0 && this.state.showCycle !== this.state.gamesDB[0].cycleid)  || (this.state.showCycle !== this.state.showCycleData.cycleid))){
+        if (this.state.leagueID !== 0 && (
+            (Array.isArray(this.state.gamesDB) && this.state.gamesDB.length !== 0 && this.state.showCycle !== this.state.gamesDB[0].cycleid)
+            || (this.state.showCycle !== this.state.showCycleData.cycleid))){
             this.getShowCycleData();
         };
 
         if (this.state.leaguePage) {
             return (
-                <AdminLeaguePage />
+                <AdminLeaguePage    onReturn= {()=> this.setState({leaguePage: false})}
+                                    leagueID= {this.state.leagueID}
+                                    leagueName = {this.state.leagueName}
+                                    currentCycle= {this.state.currentCycle}
+                                    cyclesIDs = {this.state.cyclesIDs}
+                                    membersNames = {this.state.membersNames}
+                />
             );
         }
         else {
