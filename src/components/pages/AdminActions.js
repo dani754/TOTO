@@ -1,4 +1,3 @@
-import React from 'react';
 
 export function addCycle (leagueID){
     return fetch(`https://toto-server.herokuapp.com/addcycle/${leagueID}`,
@@ -89,3 +88,4 @@ export function unlockUpdates (cycleID){
         console.log("response unclosecycle", data)
     }).catch(err => console.log("unclosecycle", err))
 }
+

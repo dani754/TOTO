@@ -17,7 +17,6 @@ export default class Home extends React.Component {
             userID: 0,
             userName: '',
             isAdmin: 0,
-            image: '',
             currentLeagueID: 0,
             leagueName: '',
             membersIDs: [],
@@ -46,7 +45,6 @@ export default class Home extends React.Component {
                 userID: result.userid,
                 userName: result.username,
                 isAdmin: result.is_admin,
-                image: result.image,
                 currentLeagueID: result.leagueData.leagueid,
                 leagueName: result.leagueData.leaguename,
                 membersIDs: result.leagueData.members_ids,
@@ -99,7 +97,14 @@ export default class Home extends React.Component {
         }
         if (this.state.isAdmin){
             return (
-                <Admin leagueID={this.state.currentLeagueID} />
+                <Admin  leagueID={this.state.currentLeagueID}
+                        leagueName = {this.state.leagueName}
+                        membersNames = {this.state.membersNames}
+                        membersIDs = {this.state.membersIDs}
+                        cyclesIDs = {this.state.cyclesIDs}
+                        currentCycle = {this.state.currentCycle}
+                        cyclesDB = {this.state.cyclesDB}
+                 />
             );
         } else {
             if (this.state.navBar === "טוען טבלה..."  && this.state.currentCycle !== 0){
@@ -121,3 +126,4 @@ export default class Home extends React.Component {
     }
 }
 
+           

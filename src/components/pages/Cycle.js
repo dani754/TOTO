@@ -90,7 +90,7 @@ export default class Cycle extends React.Component {
     checkBets = (table) => {
         let complete = true;
         for (let i = 0; i<table.length; i++){
-            if (! (table[i].userBet >= 1 && table[i].userBet <= 3 ||  table[i].userBet === 'x')){
+            if (! (table[i].userBet >= 1 && (table[i].userBet <= 3 ||  table[i].userBet === 'x'))){
                 complete = false;
             }
         }
@@ -246,7 +246,7 @@ export default class Cycle extends React.Component {
                             {tableArray.map((game,i) => {
                                 if (game.isbonus){
                                     return( <tr key={i} className="bonusLineFour" >
-                                            <td className="hebrew" className="bet" >
+                                            <td className="hebrew bet" >
                                                 <Form.Group className="bet" >
                                                     <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
                                                         <option value='0' className="hebrew" >ממתין</option>
@@ -263,7 +263,7 @@ export default class Cycle extends React.Component {
                                     );
                                 } else {
                                     return( <tr key={i} className="hebrew" >
-                                            <td className="hebrew" className="bet" >
+                                            <td className="hebrew bet" >
                                                 <Form.Group className="bet" >
                                                     <Form.Control className="bet"  as="select" size="sm"  key={i} onChange={(e)=>this.handleChange(e, i)} value={game.userBet}>
                                                         <option value='0' className="hebrew" >ממתין</option>

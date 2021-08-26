@@ -1,14 +1,14 @@
 import React from 'react';
-import AdminNav from './AdminNav';
-import * as Actions from './AdminActions';
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import AdminNav from './AdminNav';
+import * as Actions from './AdminActions';
 import '../../style.css';
 import '../../importStyle.css';
 
 
-export default class AdminCycle extends React.Component {
+export default class AdminCycleTable extends React.Component {
     constructor (props){
         super(props);
         this.state = {
@@ -23,29 +23,20 @@ export default class AdminCycle extends React.Component {
             gamesToAdd: 0,
             hometeam: [""],
             awayteam: [""],
-            inputType: "lines",
         }
     }
 
     updateState = () => {
-        let url = `https://toto-server.herokuapp.com/home/cycle/${this.props.cycleID}`;
-        return fetch(url,
-        {
-                method: "get",
-                headers: {'Content-Type': 'application/json'},
-        }).then( res => res.json()
-        ).then( data => {
-            console.log("response cycle data", data);
-            this.setState({
-                cycleID: data.cycleid,
-                gamesIDs: data.games_ids,
-                cycleOrderInLeague: data.order_in_league,
-                lockedForBets: data.lock_for_bets,
-                lockedForUpdates: data.lock_for_updates,
-                lockingTime: data.lock_bets_time,
-                gamesDB: data.gamesDB,
-            });
-        }).catch(err => console.log("cycle data", err))       
+        let cycleData = Actions.getCycleData(this.props.cycleID);
+        this.setState({
+            cycleID: cycleData.cycleid,
+            gamesIDs: cycleData.games_ids,
+            cycleOrderInLeague: cycleData.order_in_league,
+            lockedForBets: cycleData.lock_for_bets,
+            lockedForUpdates: cycleData.lock_for_updates,
+            lockingTime: cycleData.lock_bets_time,
+            gamesDB: cycleData.gamesDB,
+        })
     }
 
     setTable = () => {
@@ -81,11 +72,129 @@ export default class AdminCycle extends React.Component {
         }
     }
 
+    addGames = () => {
+        for (let i=0; i<= this.state.gamesToAdd; i++){
+            if (this.state.hometeam[i] !== '' && this.state.awayteam[i] !== ''){
+                fetch('https://toto-server.herokuapp.com/addgame',
+                    {
+                        method: "post",
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            hometeam: this.state.hometeam[i],
+                            awayteam: this.state.awayteam[i],
+                            cycleID: this.state.cycleID,
+                            leagueSize: this.props.leagueSize,
+                            isFirst: (this.state.table[0].hometeam === 'await'),
+                        })
+                    })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (i===this.state.gamesToAdd){
+                            let renderUpdateTable = this.state.table;
+                            renderUpdateTable[0].cycleid = 0;
+                            this.setState({
+                                cycleID: 0,
+                                gamesToAdd: 0,
+                                hometeam: [""],
+                                awayteam: [""],
+                                table: renderUpdateTable,
+                            })                            
+                        }
+                    }).catch(err => console.log("addGame", err))
+            }
+            
+        }
+    }
+    
+    deleteGame = (gameID) => {
+        console.log("delete game", gameID);
+        let url = `https://toto-server.herokuapp.com/deletegame/${gameID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response deletegame", res)
+            res.json()
+        }).then((data) => {
+            let renderUpdateTable = this.state.table;
+            renderUpdateTable[0].cycleid = 0;
+            this.setState({
+                cycleID: 0,
+                table: renderUpdateTable,
+            })   
+            console.log("response deletegame", data)
+        }).catch(err => console.log("deletegame", err))
+    }
+
+    markAsBonusGame = (gameID) => {
+        console.log("bunus game", gameID);
+        let url = `https://toto-server.herokuapp.com/bonusgame/${gameID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response bonusgame", res)
+            res.json()
+        }).then((data) => {
+            let renderUpdateTable = this.state.table;
+            renderUpdateTable[0].cycleid = 0;
+            this.setState({
+                cycleID: 0,
+                table: renderUpdateTable,
+            }) 
+            console.log("response bonusgame", data)
+        }).catch(err => console.log("bonusgame", err))
+    }
+
+    unmarkAsBonusGame = (gameID) => {
+        console.log("un-bunus game", gameID);
+        let url = `https://toto-server.herokuapp.com/unbonusgame/${gameID}`;
+        fetch(url,
+        {
+                method: "get",
+                headers: {'Content-Type': 'application/json'},
+        }).then((res) => {
+            console.log("response unbonusgame", res)
+            res.json()
+        }).then((data) => {
+            let renderUpdateTable = this.state.table;
+            renderUpdateTable[0].cycleid = 0;
+            this.setState({
+                cycleID: 0,
+                table: renderUpdateTable,
+            }) 
+            console.log("response unbonusgame", data)
+        }).catch(err => console.log("unbonusgame", err))
+    }
+
     handleChange = (e, i) => {
         let newCycleScore = this.state.table;
         newCycleScore[i].newScore = parseInt(e.target.value);
         console.log("newCycleScore", newCycleScore);
         this.setState({table: newCycleScore});
+    }
+
+    updateScores = () => {
+        console.log("updateScores", this.state);
+        if (this.state.table[0].cycleid === this.state.cycleID && Array.isArray(this.state.gamesDB) && this.state.gamesDB.length > 0){
+            fetch('https://toto-server.herokuapp.com/updatescores',
+                {
+                    method: "post",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        gamesTable: this.state.table,
+                        cycleID: this.state.cycleID,
+                    })
+                })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log("response updatescores", data);
+                    this.props.onSelect("scoreUpdate");
+                    this.setState({cycleID: 0});
+                }).catch(err => console.log("updatescores", err))
+        }
     }
 
     switchTab = (eventKey) => {
@@ -98,44 +207,61 @@ export default class AdminCycle extends React.Component {
                 }
                 break;
             case "LeagueData":
-                this.props.goToLeaguePage();
+                this.setState({leaguePage: true});
                 break;
             case "addCycle":
-                let newCycleID = Actions.addCycle(this.props.leagueID);
-                this.props.onSwitch(newCycleID);
+                let newCycleID = Actions.addCycle(this.state.leagueID);
+                let newCyclesIDsArray = this.state.cyclesIDs;
+                newCyclesIDsArray.push(newCycleID);
+                this.setState({showCycle: newCycleID,
+                                gamesDB: [],
+                                showCycleData: {cycleid: newCycleID},
+                                cyclesIDs: newCyclesIDsArray,
+                });
                 break;
             case "setLockBetsTime":
                 break;
             case "lockBets":
-                Actions.lockBets(this.state.cycleID);
-                this.setState({lockedForBets: true});
+                Actions.lockBets(this.state.showCycle);
+                let lockBetsState = this.state.showCycleData;
+                lockBetsState.lock_for_bets = true;
+                this.setState({showCycleData: lockBetsState});
                 break;
             case "checkForMissingBets":
                 break;
             case "unlockBets":
-                Actions.unlockBets(this.state.cycleID);
-                this.setState({lockedForBets: false});
+                Actions.unlockBets(this.state.showCycle);
+                let unlockBetsState = this.state.showCycleData;
+                unlockBetsState.lock_for_bets = false;
+                this.setState({showCycleData: unlockBetsState});
                 break;
-            case "setAsCurrentCycle":
-                Actions.setCurrentCycle(this.state.cycleID, this.props.leagueID);
+            case "setCurrentCycle":
+                let cycle = this.state.showCycle;
+                Actions.setCurrentCycle(cycle, this.state.leagueID);
+                this.setState({currentCycle: cycle});
                 break;
             case "lockUpdates":
-                Actions.lockUpdates(this.state.cycleID);
-                this.setState({lockedForUpdates: true});
+                Actions.lockUpdates(this.state.showCycle);
+                let lockUpdatesState = this.state.showCycleData;
+                lockUpdatesState.lock_for_updates = true;
+                this.setState({showCycleData: lockUpdatesState});
                 break;
             case "ulockUpdates":
-                Actions.unlockUpdates(this.state.cycleID);
-                this.setState({lockedForUpdates: false});
+                Actions.unlockUpdates(this.state.showCycle);
+                let unlockUpdatesState = this.state.showCycleData;
+                unlockUpdatesState.lock_for_updates = false;
+                this.setState({showCycleData: unlockUpdatesState});
                 break;
             default:
-                this.props.onSwitch(eventKey);
+                this.setState({showCycle: eventKey});
+                this.getShowCycleData();
         }
     }
 
 
 
     render (){
-        if (parseInt(this.state.cycleID) !== parseInt(this.props.cycleID)){
+        if (this.state.cycleID !== this.props.cycleID){
             this.updateState();
         }
         let tableArray = this.state.table;
@@ -143,14 +269,8 @@ export default class AdminCycle extends React.Component {
             this.setTable();
         }
         if (this.state.lockedForUpdates){
-            return (
+            return(
                 <div>
-                    <AdminNav   onSelect = { (eventKey) => {this.switchTab(eventKey)}}
-                                cycles={this.props.cyclesIDs} 
-                                cycleID = {this.state.cycleID}
-                                tabMode = "lockedForUpdates"
-                                inputType = {this.state.inputType}
-                    />
                     <Table striped bordered hover variant="dark">
                         <thead>
                             <tr>
@@ -181,18 +301,11 @@ export default class AdminCycle extends React.Component {
                         </tbody>
                     </Table>
                 </div>
-            )
-        }
-        else if (this.state.lockedForBets) {
+            );
+        } else if (this.state.lockedForBets) {
             return (
                 <div>
-                    <AdminNav   onSelect = { (eventKey) => {this.switchTab(eventKey)}}
-                                cycles={this.props.cyclesIDs} 
-                                cycleID = {this.state.cycleID}
-                                tabMode = "lockedForBets"
-                                inputType = {this.state.inputType}
-                    />
-                    <Form onSubmit={()=>this.updateScores()}>
+                   <Form onSubmit={()=>this.updateScores()}>
                         <Table striped bordered hover variant="dark" >
                             <thead>
                                 <tr >
@@ -243,22 +356,11 @@ export default class AdminCycle extends React.Component {
                         </Table>
                     </Form>
                 </div>
-            )
-        }
-        else {
-            let tabStatus = "openCycle";
-            if (this.state.gamesDB === []){
-                tabStatus = "emptyCylce";
-            }
+            );
+        } else {
             let gamesArray = this.state.hometeam;
             return (
                 <div>
-                    <AdminNav   onSelect = { (eventKey) => {this.switchTab(eventKey)}}
-                                cycles={this.props.cyclesIDs} 
-                                cycleID = {this.state.cycleID}
-                                tabMode = {tabStatus}
-                                inputType = {this.state.inputType}
-                    />
                     <Form onSubmit={()=>this.handleSubmit()}>
                         <Table striped bordered hover variant="dark">
                             <thead>
